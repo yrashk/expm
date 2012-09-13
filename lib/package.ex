@@ -1,4 +1,5 @@
 defrecord Expm.Package, 
+  meta: [],
   # required
   name: nil,
   description: nil,
