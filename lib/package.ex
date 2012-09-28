@@ -13,9 +13,9 @@ defrecord Expm.Package,
   dependencies: [],
   # optional
   homepage: nil,
-  os: [],
-  cpu: [],
+  platforms: [],
   directories: ["src","lib","priv","include"] do
+  
     @type name :: binary
     @type spec :: list(term)
     @type filter :: spec
@@ -31,5 +31,5 @@ defrecord Expm.Package,
   deflist repositories, repository
   deflist dependencies, dependency
   deflist directories, directory
-
+  deflist platforms, platform
 end
