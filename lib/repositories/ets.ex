@@ -1,12 +1,12 @@
-defrecord Expm.Repository.ETS, tid: nil do
+defrecord Expm.Repository.ETS, tid: nil, options: [:ordered_set, :public] do
   defoverridable [new: 0]
   def new do
     repo = super()
-    repo.tid(init)
+    repo.tid(init(repo))
   end
 
-  defp init do
-    :ets.new(__MODULE__, [:ordered_set])
+  defp init(repo) do
+    :ets.new(__MODULE__, options(repo))
   end
 end
 
