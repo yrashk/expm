@@ -103,8 +103,12 @@ defmodule Expm.Server.Templates do
                 </p>
                 <p>To publish a package:</p>
 
-                <code>expm --username ... --password ... -r http://<%= @host %><%= @port %> publish [package.exs]</code>
-              </div>
+                <p><code>expm --username ... --password ... -r http://<%= @host %><%= @port %> publish [package.exs]</code></p>
+
+                Please note that you don't need to signup to get an account. User name and password
+                combinations are per package, and this authentication combination gets automatically attached
+                to a newly claimed package.
+                div>
               <hr>
 
               <div class="row">
