@@ -1,4 +1,4 @@
-defrecord Expm.CLI, repository: "http://expm.co", username: nil, password: nil do
+defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, password: nil do
 
   def run(["list"], rec) do
     run(["search", ""], rec)
