@@ -34,8 +34,12 @@ defimpl Expm.Repository, for: Expm.Repository.Auth do
   defp strip_auth_token(:not_found), do: :not_found
   defp strip_auth_token(spec) do
     if (published_by = spec.metadata[:published_by]) do
-      {username, _} = published_by
-      spec.metadata(Keyword.put spec.metadata, :published_by, username)
+      case published_by do
+        {username, _} ->
+          spec.metadata(Keyword.put spec.metadata, :published_by, username)
+        _ ->
+          spec
+      end
     else
       spec
     end 
