@@ -12,13 +12,24 @@ defrecord Expm.CLI, repository: "http://expm.co", username: nil, password: nil d
     end
   end
 
-  def run(["spec",package], rec) do
+  def run(["spec", package], rec) do
     repo = repo(rec)
-    case Enum.reverse(List.sort(Expm.Package.versions repo, package)) do 
-      [] -> 
+    pkg = Expm.Package.fetch repo, package
+    case pkg do
+      :not_found ->
         IO.puts "No such package"
-      [version] -> 
-        pkg = Expm.Package.fetch repo, package, version
+      _ -> 
+        IO.inspect pkg
+    end
+  end
+  
+  def run(["spec", package, version], rec) do
+    repo = repo(rec)
+    pkg = Expm.Package.fetch repo, package, version
+    case pkg do
+      :not_found ->
+        IO.puts "No such package"
+      _ -> 
         IO.inspect pkg
     end
   end
