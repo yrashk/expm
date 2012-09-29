@@ -12,4 +12,13 @@ defmodule Expm do
     :application.set_env(:expm, :app_module, app_module)
     :ok = Application.start(:expm)
   end
+
+  def main(argv) do
+    argv = lc arg inlist argv, do: to_binary(arg)
+    {opts, commands} = OptionParser.parse(argv, 
+                       aliases: [
+                                 r: :repository, 
+                                ])
+    Expm.CLI.new(opts).run(commands)
+  end
 end

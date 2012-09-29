@@ -1,9 +1,12 @@
-all: ebin
+all: expm
 
 .PHONY: ebin
 
 ebin:
-	mix do deps.get, compile
+	@mix do deps.get, compile
+
+expm: ebin
+	@mix escriptize
 
 start: ebin
-		@foreman start
+	@foreman start

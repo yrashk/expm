@@ -4,7 +4,9 @@ defmodule Expm.Mixfile do
   def project do
     [ app: :expm,
       version: System.cmd("git describe --always --tags"),
-      deps: deps ]
+      deps: deps,
+      escript_embed_elixir: true
+    ]
   end
 
   # Configuration for the OTP application

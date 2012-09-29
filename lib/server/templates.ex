@@ -94,11 +94,11 @@ defmodule Expm.Server.Templates do
                 <p>This repository is available over HTTP:</p>
                    
                 <p>
-                  <code>repo = Expm.Repository.HTTP.new url: "http://<%= @host %><%= @port %>"[, username: "...", password: "..."]</code>
+                  <code>expm -r http://<%= @host %><%= @port %> list</code>
                 </p>
                 <p>To publish a package:</p>
 
-                <code>Expm.Package.publish repo, Expm.Package.read(filename // "package.exs") </code>
+                <code>expm --username ... --password ... -r http://<%= @host %><%= @port %> publish [package.exs]</code>
               </div>
               <hr>
 
