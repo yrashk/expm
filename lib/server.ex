@@ -8,6 +8,7 @@ defmodule Expm.Server do
    repository = Expm.Repository.DETS.new filename: env[:datafile]
    dispatch = [
       {:_, [{[], Expm.Server.Http, [repository: repository, endpoint: :list]},     
+            {["favicon.ico"], Expm.Server.Http.NotFound, []},     
             {[:package], Expm.Server.Http, [repository: repository, endpoint: :package]},      
             {[:package, :version], Expm.Server.Http, [repository: repository, endpoint: :package_version]},
             ]},
@@ -21,6 +22,19 @@ defmodule Expm.Server do
   defp sup_tree do
     Sup.OneForOne.new(id: Expm.Server.Sup)
   end
+end
+
+defmodule Expm.Server.Http.NotFound do
+  alias :cowboy_req, as: Req
+
+  def init({:tcp, :http}, req, opts), do: {:ok, req, opts}
+
+  def handle(req, opts) do
+    {:ok, req} = Req.reply(404, [], req)    
+    {:ok, req, opts}
+  end
+
+  def terminate(_req, _state), do: :ok
 end
 
 defmodule Expm.Server.Http do
