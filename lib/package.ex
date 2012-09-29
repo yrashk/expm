@@ -92,11 +92,26 @@ defrecord Expm.Package,
   end
 
   def filter(repo, package) do
-    Expm.Repository.list repo, package
+    pkgs = 
+    Enum.reduce Expm.Repository.list(repo, package),
+                [],
+                fn(package, acc) ->
+                  case :proplists.get_value(package.name, acc, nil) do
+                    nil -> [{package.name, package}|acc]
+                    another_package ->
+                      if another_package.version < package.version do
+                         [{package.name, package}|(acc -- [{package.name, another_package}])]
+                      else
+                         acc
+                      end
+                  end
+                end
+    pkgs = lc {_, pkg} inlist pkgs, do: pkg
+    pkgs = List.sort pkgs, fn(pkg1, pkg2) -> pkg1.name <= pkg2.name end
   end
 
   def all(repo) do
-    Expm.Repository.list repo, Expm.Package[_: :_]
+    filter repo, Expm.Package[_: :_]
   end
 
   def search(repo, keyword) do

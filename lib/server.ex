@@ -98,15 +98,14 @@ defmodule Expm.Server.Http do
   def process_elixir(req, State[endpoint: :list, repository: repository] = state) do
     {:ok, body, req} = Req.body(req)
     filter = Expm.Package.decode body  
-    pkgs = Expm.Repository.list repository, filter
+    pkgs = Expm.Package.filter repository, filter
     req = Req.set_resp_body(inspect(pkgs), req)
     {true, req, state}
   end
 
   def to_html(req, State[endpoint: :list, repository: repository] = state) do
     {kwd, req} = Req.qs_val("q", req, "")
-    pkgs = Expm.Package.search repository, kwd
-    pkgs = List.sort pkgs, fn(pkg1, pkg2) -> pkg1.name <= pkg2.name end
+    pkgs = Expm.Package.search repository, kwd    
     out = render_page(Expm.Server.Templates.list(pkgs, (if kwd == "", do: "Index", else: "Search: #{kwd}")), req, state)
     {out, req, state}
   end
