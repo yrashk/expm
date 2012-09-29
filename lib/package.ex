@@ -84,7 +84,7 @@ defrecord Expm.Package,
   end
 
   def fetch(repo, package) do
-    case Enum.reverse(List.sort(versions repo, package)) do
+    case List.reverse(versions(repo, package)) do
      [] -> :not_found
      [top|_] -> fetch(repo, package, top)
     end
@@ -100,7 +100,7 @@ defrecord Expm.Package,
   end
 
   def versions(repo, package) do
-    Expm.Repository.versions repo, package
+    List.sort(Expm.Repository.versions repo, package)
   end
 
   def filter(repo, package) do
