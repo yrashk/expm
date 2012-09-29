@@ -111,7 +111,7 @@ defmodule Expm.Server.Http do
       [version] -> 
             pkg = Expm.Repository.get repository, package, version
     end
-    out = html_header(req, state) <> %b{#{inspect pkg}} <> html_footer(req, state)
+    out = html_header(req, state) <> Expm.Server.Templates.package(pkg) <> html_footer(req, state)
     {out, req, state}
   end
 
@@ -120,7 +120,7 @@ defmodule Expm.Server.Http do
     {version, req} = Req.binding(:version, req)    
     pkg = Expm.Repository.get repository, package, version
     if pkg == :not_found, do: pkg = "ERROR: No such package"
-    out = html_header(req, state) <> %b{#{inspect pkg}} <> html_footer(req, state)
+    out = html_header(req, state) <> Expm.Server.Templates.package(pkg) <> html_footer(req, state)
     {out, req, state}
   end
 
