@@ -100,6 +100,13 @@ defmodule Expm.Server.Templates do
 
                 <code>Expm.Package.publish repo, Expm.Package.read(filename // "package.exs") </code>
               </div>
+              <hr>
+
+              <div class="row">
+                <center><small>Running expm <%= \{:ok, vsn\} = :application.get_key(:expm, :vsn) ; vsn %> on Elixir 
+                <%= System.version %> (<%= \{_, sha, _\} = System.build_info ; sha %>)
+                </small></center>
+              </div>
             </div>
 
 

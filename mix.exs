@@ -3,7 +3,7 @@ defmodule Expm.Mixfile do
 
   def project do
     [ app: :expm,
-      version: "0.0.1",
+      version: System.cmd("git describe --always --tags"),
       deps: deps ]
   end
 
