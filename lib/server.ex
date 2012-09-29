@@ -6,7 +6,7 @@ defmodule Expm.Server do
   def start(_, _) do
    env = Application.environment(:expm)
    static_dir = File.join [File.dirname(:code.which(__MODULE__)), "..", "priv", "static"]
-   repository = Expm.Repository.DETS.new filename: env[:datafile]
+   {repository, _} = Code.eval env[:repository], [env: env]
    dispatch = [
       {:_, [{[], Expm.Server.Http, [repository: repository, endpoint: :list]},     
             {["favicon.ico"], :cowboy_static, [file: "favicon.ico", directory: static_dir]},     
