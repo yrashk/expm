@@ -79,4 +79,24 @@ defrecord Expm.Package,
     v
   end
 
+  def publish(repo, package) do
+    Expm.Repository.put repo, package
+  end
+
+  def fetch(repo, package, version) do
+    Expm.Repository.get repo, package, version
+  end
+
+  def versions(repo, package) do
+    Expm.Repository.versions repo, package
+  end
+
+  def filter(repo, package) do
+    Expm.Repository.list repo, package
+  end
+
+  def all(repo) do
+    Expm.Repository.list repo, Expm.Package[_: :_]
+  end
+
 end
