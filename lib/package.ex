@@ -99,4 +99,15 @@ defrecord Expm.Package,
     Expm.Repository.list repo, Expm.Package[_: :_]
   end
 
+  def search(repo, keyword) do
+    pkgs = all(repo)
+    re = %r(.*#{keyword}.*)
+    Enum.filter pkgs, fn(pkg) ->
+                        Regex.match?(re,pkg.name) or
+                        Regex.match?(re,pkg.description) or
+                        Enum.any?(String.split(pkg.keywords, %r(,|\s), global: true),
+                                  fn(kwd) -> Regex.match?(re, kwd) end)
+                      end
+  end
+
 end
