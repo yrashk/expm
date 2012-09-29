@@ -83,10 +83,16 @@ defmodule Expm.Server.Http do
   def process_elixir(req, State[endpoint: :package, repository: repository] = state) do
     {:ok, body, req} = Req.body(req)
     pkg = Expm.Package.decode body
-    Expm.Repository.put repository, pkg
-    Lager.info "Published #{pkg.name}:#{pkg.version}"    
-    req = Req.set_resp_body(pkg.encode, req)
-    {true, req, state}
+    case Expm.Repository.put(repository, pkg) do
+      Expm.Package[] = pkg ->
+        Lager.info "Published #{pkg.name}:#{pkg.version}"    
+        req = Req.set_resp_body(pkg.encode, req)
+        {true, req, state}
+      other ->
+        Lager.error "Failed publishing #{pkg.name} :: #{pkg.version}: #{inspect other}"
+        req = Req.set_resp_body(inspect(other), req)                
+        {true, req, state}
+    end
   end
 
   def process_elixir(req, State[endpoint: :list, repository: repository] = state) do
