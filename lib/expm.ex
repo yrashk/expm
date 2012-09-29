@@ -1,4 +1,25 @@
 defmodule Expm do
+
+  defmacro __using__(opts) do
+    http_repo = if opts[:url], do: Expm.Repository.HTTP.new(url: opts[:url]), else: Expm.Repository.HTTP.new
+    repo = opts[:repository] || http_repo
+    format = opts[:format] || Expm.Package.Format.Mix
+    quoted_repo = Macro.escape repo
+    quote do
+      def expm(package, options // []) do
+        repo = options[:repository] || unquote(quoted_repo)
+        format = options[:format] || unquote(format)
+        pkg = 
+        if options[:version] do
+          Expm.Package.fetch repo, package, options[:version]
+        else
+          Expm.Package.fetch repo, package
+        end
+        format.format pkg, (options[format] || [])
+      end      
+    end
+  end
+
   use Application.Behaviour
   def start(start_type, start_args) do
     {:ok, m} = :application.get_env(:expm, :app_module)
