@@ -96,6 +96,7 @@ defmodule Expm.Server.Http do
 
   def to_html(req, State[endpoint: :list, repository: repository] = state) do
     pkgs = Expm.Repository.list repository, Expm.Package[_: :_]
+    pkgs = List.sort pkgs, fn(pkg1, pkg2) -> pkg1.name <= pkg2.name end
     out = html_header(req, state) <>
           "<ul>" <> 
           iolist_to_binary(lc pkg inlist pkgs, do: %b{<li><a href="/#{pkg.name}">#{pkg.name}</a> #{pkg.description}</li>}) <> 
