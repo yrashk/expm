@@ -36,7 +36,7 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
 
   def get(repo, package, version) do
     {:ok, 200, _headers, client} = 
-      H.request("GET", "#{repo.url}/#{package}/#{version}",
+      H.request("GET", "#{repo.url}/#{to_binary(package)}/#{to_binary(version)}",
                 [
                  {"content-type","application/elixir"},
                  {"accept", "application/elixir"}                 
