@@ -98,10 +98,10 @@ defmodule Expm.Server.Http do
   def to_html(req, State[endpoint: :list, repository: repository] = state) do
     pkgs = Expm.Repository.list repository, Expm.Package[_: :_]
     pkgs = List.sort pkgs, fn(pkg1, pkg2) -> pkg1.name <= pkg2.name end
-    out = html_header(req, state) <>
+    out = render_page(
           "<ul>" <> 
           iolist_to_binary(lc pkg inlist pkgs, do: %b{<li><a href="/#{pkg.name}">#{pkg.name}</a> #{pkg.description}</li>}) <> 
-          "</ul>" <> html_footer(req, state)
+          "</ul>", req, state)
     {out, req, state}
   end
 
@@ -112,7 +112,7 @@ defmodule Expm.Server.Http do
       [version] -> 
             pkg = Expm.Repository.get repository, package, version
     end
-    out = html_header(req, state) <> Expm.Server.Templates.package(pkg) <> html_footer(req, state)
+    out = render_page(Expm.Server.Templates.package(pkg), req, state)
     {out, req, state}
   end
 
@@ -121,7 +121,7 @@ defmodule Expm.Server.Http do
     {version, req} = Req.binding(:version, req)    
     pkg = Expm.Repository.get repository, package, version
     if pkg == :not_found, do: pkg = "ERROR: No such package"
-    out = html_header(req, state) <> Expm.Server.Templates.package(pkg) <> html_footer(req, state)
+    out = render_page(Expm.Server.Templates.package(pkg), req, state)
     {out, req, state}
   end
 
@@ -138,45 +138,27 @@ defmodule Expm.Server.Http do
     {inspect(versions), req, state}
   end
 
-  defp html_header(_req, _state) do
+  defp render_page(content, req, state) do
+    Expm.Server.Templates.page(content, page_assigns(req, state))
+  end
+
+  defp page_assigns(req, _state) do
+    {host, req} = Req.host(req)
+    {port, req} = Req.port(req)
     motd_file = File.join [File.dirname(__FILE__), "..", "priv", "motd"]
     if File.exists?(motd_file) do
       {:ok, motd} = File.read(motd_file)
     else
       motd = ""
-    end
-
-    """
-      <a href="https://github.com/yrashk/expm"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>    
-      <h1>EXPM Repository</h1>
-      <p><small>(<a href="http://elixir-lang.org">Elixir</a> and <a href="http://erlang.org">Erlang</a> packages)</small></p>
-      <p>#{motd}</p>
-      <hr />
-    """
-  end
-  defp html_footer(req, _state) do
-    {host, req} = Req.host(req)
-    {port, req} = Req.port(req)
+    end    
     if port == 80 do
       port = ""
     else
       port = ":#{port}"
-    end
-    """
-      <p />
-      <hr />
-      <p>This repository is available over HTTP:</p>
-         
-      <code>repo = Expm.Repository.HTTP.new url: "http://#{host}#{port}"[, username: "...", password: "..."]</code>
-
-      <p>To publish a package:</p>
-
-      <code>Expm.Package.publish repo, Expm.Package.read</code> (will read package.exs)
-      <p>or</p>
-      <code>Expm.Package.publish repo, Expm.Package.read("mypackage.exs")</code>
-      
-    """
+    end  
+    [host: host, port: port, motd: motd]
   end
+
 
  def terminate(_req, _state), do: :ok
 end
