@@ -110,4 +110,10 @@ defrecord Expm.Package,
                       end
   end
 
+  def read(file // "package.exs") do
+    {:ok, bin} = File.read(file)
+    {pkg, _} = Code.eval bin
+    pkg
+  end
+
 end
