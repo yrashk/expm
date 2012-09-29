@@ -26,6 +26,7 @@ defimpl Expm.Repository, for: Expm.Repository.Auth do
     lc spec inlist Expm.Repository.list(repo.repository, filter), do: strip_auth_token(spec)
   end
 
+  defp strip_auth_token(:not_found), do: :not_found
   defp strip_auth_token(spec) do
     if (published_by = spec.metadata[:published_by]) do
       {username, _} = published_by

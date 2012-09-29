@@ -105,8 +105,11 @@ defmodule Expm.Server.Http do
 
   def to_html(req, State[endpoint: :package, repository: repository] = state) do
     {package, req} = Req.binding(:package, req)  
-    version = hd(Enum.reverse(List.sort(Expm.Repository.versions repository, package)))
-    pkg = Expm.Repository.get repository, package, version
+    case Enum.reverse(List.sort(Expm.Repository.versions repository, package)) do 
+      [] -> pkg = "ERROR: No such package"
+      [version] -> 
+            pkg = Expm.Repository.get repository, package, version
+    end
     out = html_header(req, state) <> %b{#{inspect pkg}} <> html_footer(req, state)
     {out, req, state}
   end
@@ -115,6 +118,7 @@ defmodule Expm.Server.Http do
     {package, req} = Req.binding(:package, req)  
     {version, req} = Req.binding(:version, req)    
     pkg = Expm.Repository.get repository, package, version
+    if pkg == :not_found, do: pkg = "ERROR: No such package"
     out = html_header(req, state) <> %b{#{inspect pkg}} <> html_footer(req, state)
     {out, req, state}
   end
