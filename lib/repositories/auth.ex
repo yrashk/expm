@@ -7,7 +7,7 @@ defimpl Expm.Repository, for: Expm.Repository.Auth do
   end
 
   def versions(repo, package) do
-    lc spec inlist Expm.Repository.versions(repo.repository, package), do: strip_auth_token(spec)
+    lc version inlist Expm.Repository.versions(repo.repository, package), do: version
   end
 
   def put(repo, spec) do

@@ -1,4 +1,4 @@
-defrecord Expm.Repository.Ets, tid: nil do
+defrecord Expm.Repository.ETS, tid: nil do
   defoverridable [new: 0]
   def new do
     repo = super()
@@ -10,7 +10,7 @@ defrecord Expm.Repository.Ets, tid: nil do
   end
 end
 
-defimpl Expm.Repository, for: Expm.Repository.Ets do
+defimpl Expm.Repository, for: Expm.Repository.ETS do
   alias :ets, as: ETS
 
   def get(repo, package, version) do
@@ -27,6 +27,7 @@ defimpl Expm.Repository, for: Expm.Repository.Ets do
 
   def put(repo, spec) do
     ETS.insert(repo.tid, {{spec.name, spec.version}, spec})
+    spec
   end
   
   def list(repo, filter) do

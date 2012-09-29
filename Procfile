@@ -1,0 +1,1 @@
+web: elixir --erl "-pa ebin -config sys -expm http_port $PORT -s Elixir-Expm" --no-halt
