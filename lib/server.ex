@@ -74,7 +74,7 @@ defmodule Expm.Server.Http do
     {[{{"application","elixir", []}, :process_elixir}], req, state}
   end
 
-  def process_elixir(req, State[endpoint: nil, repository: repository] = state) do
+  def process_elixir(req, State[endpoint: :package, repository: repository] = state) do
     {:ok, body, req} = Req.body(req)
     pkg = Expm.Package.decode body
     Expm.Repository.put repository, pkg
