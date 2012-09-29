@@ -1,3 +1,5 @@
 /ebin
 /deps
 erl_crash.dump
+log
+/priv/motd

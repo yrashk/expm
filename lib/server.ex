@@ -133,9 +133,17 @@ defmodule Expm.Server.Http do
   end
 
   defp html_header(_req, _state) do
+    motd_file = File.join [File.dirname(__FILE__), "..", "priv", "motd"]
+    if File.exists?(motd_file) do
+      {:ok, motd} = File.read(motd_file)
+    else
+      motd = ""
+    end
+
     """
       <h1>EXPM Repository</h1>
-      <small>(<a href="http://elixir-lang.org">Elixir</a> and <a href="http://erlang.org">Erlang</a> packages)</small>
+      <p><small>(<a href="http://elixir-lang.org">Elixir</a> and <a href="http://erlang.org">Erlang</a> packages)</small></p>
+      <p>#{motd}</p>
       <hr />
     """
   end
