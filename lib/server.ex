@@ -68,8 +68,8 @@ defmodule Expm.Server.Http do
 
   def content_types_provided(req, State[] = state) do
     {[
+       {{<<"text">>, <<"html">>, []}, :to_html},      
        {{<<"application">>, <<"elixir">>, []}, :to_elixir},
-       {{<<"text">>, <<"html">>, []}, :to_html},
      ], req, state}
   end
 
