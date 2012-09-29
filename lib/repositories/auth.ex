@@ -11,14 +11,19 @@ defimpl Expm.Repository, for: Expm.Repository.Auth do
   end
 
   def put(repo, spec) do
-    pkgs = Expm.Repository.list(repo.repository, Expm.Package[name: spec.name, _: :_])
-    published_by = {repo.username, repo.auth_token}
-    if Enum.all?(pkgs, fn(pkg) -> pkg.metadata[:published_by] == published_by end) do
-      spec = Expm.Repository.put repo.repository, 
-                                 spec.metadata(Keyword.put spec.metadata, :published_by, published_by)
-      strip_auth_token(spec)                                 
+    if nil?(repo.username) or nil?(repo.auth_token) or
+       repo.username == "" or repo.auth_token == "" do
+      {:error, :access_denied}    
     else
-      {:error, :access_denied}
+      pkgs = Expm.Repository.list(repo.repository, Expm.Package[name: spec.name, _: :_])
+      published_by = {repo.username, repo.auth_token}
+      if Enum.all?(pkgs, fn(pkg) -> pkg.metadata[:published_by] == published_by end) do
+        spec = Expm.Repository.put repo.repository, 
+                                   spec.metadata(Keyword.put spec.metadata, :published_by, published_by)
+        strip_auth_token(spec)                                 
+      else
+        {:error, :access_denied}
+      end
     end
   end
   

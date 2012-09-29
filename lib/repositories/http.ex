@@ -58,6 +58,12 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
     Expm.Repository.HTTP.Decoder.decode Code.string_to_ast!(body)
   end
 
+  def put(Expm.Repository.HTTP[username: username, 
+                               password: password], _spec)
+                                 when nil?(username) or
+                                      nil?(password) do
+      {:error, :authentication_required}                                                        
+  end                                                      
   def put(repo, spec) do
     {:ok, 200, _headers, client} = 
       H.request("PUT", "#{repo.url}/#{spec.name}",
