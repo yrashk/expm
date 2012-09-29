@@ -39,6 +39,7 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
       H.request("GET", "#{repo.url}/#{package}/#{version}",
                 [
                  {"content-type","application/elixir"},
+                 {"accept", "application/elixir"}                 
                 ],
                 "", [follow_redirect: true])
     {:ok, body, client} = H.body(client)
@@ -51,6 +52,7 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
       H.request("GET", "#{repo.url}/#{package}",
                 [
                  {"content-type","application/elixir"},
+                 {"accept", "application/elixir"}
                 ],
                 "", [follow_redirect: true])
     {:ok, body, client} = H.body(client)
@@ -69,6 +71,7 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
       H.request("PUT", "#{repo.url}/#{spec.name}",
                 [{"authorization",%b{Basic #{:base64.encode("#{repo.username}:{repo.password}")}}},
                  {"content-type","application/elixir"},
+                 {"accept", "application/elixir"}                 
                  ],
                 spec.encode, [follow_redirect: true])
     {:ok, body, client} = H.body(client)
@@ -81,6 +84,7 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
       H.request("PUT", "#{repo.url}",
                 [
                  {"content-type","application/elixir"},
+                 {"accept", "application/elixir"}                 
                  ],
                 filter.encode, [follow_redirect: true])
     {:ok, body, client} = H.body(client)
