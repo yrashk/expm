@@ -149,6 +149,12 @@ defmodule Expm.Server.Templates do
      </table>
      <h4>package.exs:</h4>
      <pre><%= inspect package %></pre>
+     <script type="text/javascript">
+       var expmPackageName = "<%= package.name %>";
+     </script>
+     <%= if Application.environment(:expm)[:package_footer] do %>
+       <%= Application.environment(:expm)[:package_footer] %>
+     <% end %>
     },[:package, :repo]
 
   EEx.function_from_string :def, :page,
