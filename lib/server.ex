@@ -141,6 +141,7 @@ defmodule Expm.Server.Http do
     end
 
     """
+      <a href="https://github.com/yrashk/expm"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>    
       <h1>EXPM Repository</h1>
       <p><small>(<a href="http://elixir-lang.org">Elixir</a> and <a href="http://erlang.org">Erlang</a> packages)</small></p>
       <p>#{motd}</p>
