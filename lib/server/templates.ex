@@ -4,7 +4,7 @@ defmodule Expm.Server.Templates do
   EEx.function_from_string :def, :list,
     %b{
           <h1>Index</h1>
-          <table class="table table-striped">
+          <table class="table table-striped table-hover">
            <tbody>
            <%= lc pkg inlist pkgs do %>
              <tr>
