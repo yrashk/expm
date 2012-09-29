@@ -75,6 +75,8 @@ defmodule Expm.Server.Templates do
             <div class="container">
               <div class="well hero-unit">
                 <h1>Elixir Package Manager</h1>
+                <div><small>Place where we publish <a href="http://elixir-lang.org">Elixir</a> &
+                     <a href="http://erlang.org">Erlang</a> packages</small></div>
                 <p>
                   <%= @motd %>
                 </p>
