@@ -98,9 +98,10 @@ defmodule Expm.Server.Http do
   end
 
   def to_html(req, State[endpoint: :list, repository: repository] = state) do
-    pkgs = Expm.Repository.list repository, Expm.Package[_: :_]
+    {kwd, req} = Req.qs_val("q", req, "")
+    pkgs = Expm.Package.search repository, kwd
     pkgs = List.sort pkgs, fn(pkg1, pkg2) -> pkg1.name <= pkg2.name end
-    out = render_page(Expm.Server.Templates.list(pkgs), req, state)
+    out = render_page(Expm.Server.Templates.list(pkgs, (if kwd == "", do: "Index", else: "Search: #{kwd}")), req, state)
     {out, req, state}
   end
 

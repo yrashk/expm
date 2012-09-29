@@ -3,7 +3,7 @@ defmodule Expm.Server.Templates do
 
   EEx.function_from_string :def, :list,
     %b{
-          <h1>Index</h1>
+          <h1><%= title %></h1>
           <table class="table table-striped table-hover">
            <tbody>
            <%= lc pkg inlist pkgs do %>
@@ -14,7 +14,7 @@ defmodule Expm.Server.Templates do
            <% end %>
            </tbody>
           </table>
-      }, [:pkgs]
+      }, [:pkgs, :title]
 
   EEx.function_from_string :def, :package,
     %b{
@@ -65,6 +65,11 @@ defmodule Expm.Server.Templates do
                   <a class="brand" href="/">EXPM</a>
                   <div class="nav-collapse collapse">
                     <ul class="nav">
+                      <li>
+                        <form action="/" method="GET" class="navbar-search pull-left">  
+                          <input type="text" name="q" class="search-query" placeholder="Search">  
+                        </form>                        
+                      </li>
                     </ul>
                   </div><!--/.nav-collapse -->
                 </div>
