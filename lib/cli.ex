@@ -23,6 +23,13 @@ defrecord Expm.CLI, repository: "http://expm.co", username: nil, password: nil d
     end
   end
 
+  def run(["versions", package], rec) do
+    repo = repo(rec)
+    lc version inlist Enum.reverse(List.sort(Expm.Package.versions repo, package)) do
+      IO.puts version
+    end
+  end
+
   def run(["publish"], rec) do
     run(["publish", "package.exs"], rec)
   end
