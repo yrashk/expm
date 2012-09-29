@@ -5,10 +5,12 @@ defmodule Expm.Server do
 
   def start(_, _) do
    env = Application.environment(:expm)
+   static_dir = File.join [File.dirname(:code.which(__MODULE__)), "..", "priv", "static"]
    repository = Expm.Repository.DETS.new filename: env[:datafile]
    dispatch = [
       {:_, [{[], Expm.Server.Http, [repository: repository, endpoint: :list]},     
-            {["favicon.ico"], :cowboy_static, [{:file, "favicon.ico"},{:directory, {:priv_dir, :expm, "static"}}]},     
+            {["favicon.ico"], :cowboy_static, [file: "favicon.ico", directory: static_dir]},     
+            {["s",:'...'], :cowboy_static, [directory: static_dir, mimetypes: {function(:mimetypes,:path_to_mimes,2), :default}]},     
             {[:package], Expm.Server.Http, [repository: repository, endpoint: :package]},      
             {[:package, :version], Expm.Server.Http, [repository: repository, endpoint: :package_version]},
             ]},
@@ -98,10 +100,7 @@ defmodule Expm.Server.Http do
   def to_html(req, State[endpoint: :list, repository: repository] = state) do
     pkgs = Expm.Repository.list repository, Expm.Package[_: :_]
     pkgs = List.sort pkgs, fn(pkg1, pkg2) -> pkg1.name <= pkg2.name end
-    out = render_page(
-          "<ul>" <> 
-          iolist_to_binary(lc pkg inlist pkgs, do: %b{<li><a href="/#{pkg.name}">#{pkg.name}</a> #{pkg.description}</li>}) <> 
-          "</ul>", req, state)
+    out = render_page(Expm.Server.Templates.list(pkgs), req, state)
     {out, req, state}
   end
 
