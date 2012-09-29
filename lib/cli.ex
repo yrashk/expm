@@ -12,25 +12,25 @@ defrecord Expm.CLI, repository: "http://expm.co", username: nil, password: nil d
     end
   end
 
-  def run(["spec", package], rec) do
+  def run([<<"spec", field :: binary>>, package], rec) do
     repo = repo(rec)
     pkg = Expm.Package.fetch repo, package
     case pkg do
       :not_found ->
         IO.puts "No such package"
       _ -> 
-        IO.inspect pkg
+        IO.inspect spec_field(pkg, field)
     end
   end
-  
-  def run(["spec", package, version], rec) do
+
+  def run([<<"spec", field :: binary>>, package, version], rec) do
     repo = repo(rec)
     pkg = Expm.Package.fetch repo, package, version
     case pkg do
       :not_found ->
         IO.puts "No such package"
       _ -> 
-        IO.inspect pkg
+        IO.inspect spec_field(pkg, field)
     end
   end
 
@@ -52,6 +52,12 @@ defrecord Expm.CLI, repository: "http://expm.co", username: nil, password: nil d
 
   def run(_, _) do
     IO.puts "Invalid command"
+  end
+
+  defp spec_field(pkg, ""), do: pkg
+  defp spec_field(pkg, <<":", field :: binary>>) do
+   field = binary_to_atom field
+   apply(pkg,field,[])
   end
 
   defp repo(rec) do
