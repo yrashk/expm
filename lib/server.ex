@@ -7,7 +7,7 @@ defmodule Expm.Server do
    env = Application.environment(:expm)
    repository = Expm.Repository.DETS.new filename: env[:datafile]
    dispatch = [
-      {:_, [{["__list__"], Expm.Server.Http, [repository: repository, endpoint: :list]},     
+      {:_, [{[], Expm.Server.Http, [repository: repository, endpoint: :list]},     
             {[:package], Expm.Server.Http, [repository: repository, endpoint: :package]},      
             {[:package, :version], Expm.Server.Http, [repository: repository, endpoint: :package_version]},
             ]},
@@ -67,7 +67,10 @@ defmodule Expm.Server.Http do
   end
 
   def content_types_provided(req, State[] = state) do
-    {[{{<<"application">>, <<"elixir">>, []}, :to_elixir}], req, state}
+    {[
+       {{<<"application">>, <<"elixir">>, []}, :to_elixir},
+       {{<<"text">>, <<"html">>, []}, :to_html},
+     ], req, state}
   end
 
   def content_types_accepted(req, state) do
@@ -91,6 +94,31 @@ defmodule Expm.Server.Http do
     {true, req, state}
   end
 
+  def to_html(req, State[endpoint: :list, repository: repository] = state) do
+    pkgs = Expm.Repository.list repository, Expm.Package[_: :_]
+    out = html_header(req, state) <>
+          "<ul>" <> 
+          iolist_to_binary(lc pkg inlist pkgs, do: %b{<li><a href="/#{pkg.name}">#{pkg.name}</a> #{pkg.description}</li>}) <> 
+          "</ul>" <> html_footer(req, state)
+    {out, req, state}
+  end
+
+  def to_html(req, State[endpoint: :package, repository: repository] = state) do
+    {package, req} = Req.binding(:package, req)  
+    version = hd(Enum.reverse(List.sort(Expm.Repository.versions repository, package)))
+    pkg = Expm.Repository.get repository, package, version
+    out = html_header(req, state) <> %b{#{inspect pkg}} <> html_footer(req, state)
+    {out, req, state}
+  end
+
+  def to_html(req, State[endpoint: :package_version, repository: repository] = state) do
+    {package, req} = Req.binding(:package, req)  
+    {version, req} = Req.binding(:version, req)    
+    pkg = Expm.Repository.get repository, package, version
+    out = html_header(req, state) <> %b{#{inspect pkg}} <> html_footer(req, state)
+    {out, req, state}
+  end
+
   def to_elixir(req, State[endpoint: :package_version, repository: repository] = state) do
     {package, req} = Req.binding(:package, req)
     {version, req} = Req.binding(:version, req)
@@ -102,6 +130,30 @@ defmodule Expm.Server.Http do
     {package, req} = Req.binding(:package, req)
     versions = Expm.Repository.versions repository, package
     {inspect(versions), req, state}
+  end
+
+  defp html_header(_req, _state) do
+    """
+      <h1>EXPM Repository</h1>
+      <small>(<a href="http://elixir-lang.org">Elixir</a> and <a href="http://erlang.org">Erlang</a> packages)</small>
+      <hr />
+    """
+  end
+  defp html_footer(req, _state) do
+    {host, req} = Req.host(req)
+    {port, req} = Req.port(req)
+    if port == 80 do
+      port = ""
+    else
+      port = ":#{port}"
+    end
+    """
+      <p />
+      <hr />
+      <p>This repository is available over HTTP:</p>
+         
+      <code>Expm.Repository.HTTP.new url: "http://#{host}#{port}"[, username: "...", password: "..."]</code>
+    """
   end
 
  def terminate(_req, _state), do: :ok

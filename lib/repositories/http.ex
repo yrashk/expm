@@ -72,7 +72,7 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
   
   def list(repo, filter) do
     {:ok, 200, _headers, client} = 
-      H.request("PUT", "#{repo.url}/__list__",
+      H.request("PUT", "#{repo.url}",
                 [
                  {"content-type","application/elixir"},
                  ],
