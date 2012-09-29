@@ -28,10 +28,40 @@ defmodule Expm.Server.Templates.Package do
       <% end %>
     }, [:keywords]
 
+  EEx.function_from_string :def, :metadata,
+    %b{
+      <%= lc \{tag, value \} inlist metadata do %>
+        <span class="label label-info"><%= tag %>:</span> <%= inspect value %>
+      <% end %>
+    }, [:metadata]
+
   EEx.function_from_string :def, :name,
     %b{
-      <%= name %>
+      <strong><%= name %></strong>
     }, [:name]
+
+  EEx.function_from_string :def, :repositories,
+    %b{
+      <%= lc repository inlist repositories do %>
+        <%= if repository[:github] do %>
+          <span class="label label-important">GitHub</span>
+          <a href="https://github.com/<%= repository[:github] %>"><%= repository[:github] %></a>
+        <%  end %>
+        <%= if repository[:git] do %>
+          <span class="label label-important">Git</span>
+          <a href="<%= repository[:git] %>"><%= repository[:git] %></a>
+        <%  end %>        
+        <%= if repository[:git] do %>
+          <span class="label label-important">Git</span>
+          <a href="<%= repository[:git] %>"><%= repository[:git] %></a>
+        <%  end %>
+        <%= if repository[:url] do %>
+          <span class="label label-important">URL</span>
+          <a href="<%= repository[:url] %>"><%= repository[:url] %></a>
+        <%  end %>
+      <% end %>
+    }, [:repositories]
+
 
   EEx.function_from_string :def, :version,
     %b{
