@@ -166,7 +166,14 @@ defmodule Expm.Server.Http do
       <hr />
       <p>This repository is available over HTTP:</p>
          
-      <code>Expm.Repository.HTTP.new url: "http://#{host}#{port}"[, username: "...", password: "..."]</code>
+      <code>repo = Expm.Repository.HTTP.new url: "http://#{host}#{port}"[, username: "...", password: "..."]</code>
+
+      <p>To publish a package:</p>
+
+      <code>Expm.Package.publish repo, Expm.Package.read</code> (will read package.exs)
+      <p>or</p>
+      <code>Expm.Package.publish repo, Expm.Package.read("mypackage.exs")</code>
+      
     """
   end
 
