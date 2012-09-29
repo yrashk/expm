@@ -66,7 +66,6 @@ defmodule Expm.Server.Templates do
               </div>
             </div>        
             <a href="https://github.com/yrashk/expm"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 999999999" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
-            <p><%= @motd %></p>
 
             <div class="container">
               <div class="well hero-unit">
