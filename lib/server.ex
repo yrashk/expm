@@ -130,13 +130,13 @@ defmodule Expm.Server.Http do
   def to_elixir(req, State[endpoint: :package_version, repository: repository] = state) do
     {package, req} = Req.binding(:package, req)
     {version, req} = Req.binding(:version, req)
-    pkg = Expm.Repository.get repository, package, version
+    pkg = Expm.Package.fetch repository, package, version
     {pkg.encode, req, state}
   end
 
   def to_elixir(req, State[endpoint: :package, repository: repository] = state) do
     {package, req} = Req.binding(:package, req)
-    versions = Expm.Repository.versions repository, package
+    versions = Expm.Package.versions repository, package
     {inspect(versions), req, state}
   end
 
