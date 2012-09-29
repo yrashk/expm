@@ -83,7 +83,19 @@ defrecord Expm.Package,
     Expm.Repository.put repo, package
   end
 
+  def fetch(repo, package) do
+    case Enum.reverse(List.sort(versions repo, package)) do
+     [] -> :not_found
+     [top|_] -> fetch(repo, package, top)
+    end
+  end
+
   def fetch(repo, package, version) do
+    if is_binary(version) and 
+       Regex.match?(%r/^[a-z]+.*/i,version) do # symbolic name
+      version = binary_to_atom(version) ## FIXME?
+    end
+
     Expm.Repository.get repo, package, version
   end
 
