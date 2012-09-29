@@ -4,13 +4,16 @@ defmodule Expm.Server.Templates do
   EEx.function_from_string :def, :list,
     %b{
           <h1>Index</h1>
-          <div class="row">
-          <ul>
+          <table class="table table-striped">
+           <tbody>
            <%= lc pkg inlist pkgs do %>
-             <li><a href="<%= pkg.name %>"><%= pkg.name %></a> <%= pkg.description %></li>
+             <tr>
+             <td><a href="<%= pkg.name %>"><%= pkg.name %></a></td>
+             <td><%= pkg.description %></td>
+             </tr>
            <% end %>
-          </ul>
-          </div>
+           </tbody>
+          </table>
       }, [:pkgs]
 
   EEx.function_from_string :def, :package,
