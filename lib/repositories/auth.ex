@@ -17,7 +17,10 @@ defimpl Expm.Repository, for: Expm.Repository.Auth do
     else
       pkgs = Expm.Repository.list(repo.repository, Expm.Package[name: spec.name, _: :_])
       published_by = {repo.username, repo.auth_token}
-      if Enum.all?(pkgs, fn(pkg) -> pkg.metadata[:published_by] == published_by end) do
+      if Enum.all?(pkgs, fn(pkg) -> pkg.metadata[:published_by] == published_by or
+                                    nil?(pkg.metadata[:published_by]) or
+                                    not is_tuple(pkg.metadata[:published_by])
+                         end) do
         spec = Expm.Repository.put repo.repository, 
                                    spec.metadata(Keyword.put spec.metadata, :published_by, published_by)
         strip_auth_token(spec)                                 
