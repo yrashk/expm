@@ -19,9 +19,14 @@ defmodule Expm.Server.Templates do
   EEx.function_from_string :def, :package,
     %b{
      <ul class="breadcrumb">
-       <li><a href="/">Home</a> <span class="divider">/</span></li>
-       <li><a href="/<%= package.name %>"><%= package.name %></a> <span class="divider">/</span></li>
-       <li class="active"><%= package.version %></li>
+       <li><a href="/<%= package.name %>"><%= package.name %></a> <span class="divider"> :: </span></li>       
+       <%= lc version inlist Expm.Package.versions(repo, package.name) do %>
+        <%= if version == package.version do %>
+          <li class="active"><%= package.version %><span class="divider">|</span></li>       
+        <% else %>
+          <li><a href="/<%= package.name %>/<%= version %>"><%= version %></a> <span class="divider">|</span></li>       
+        <% end %>          
+       <% end %>
      </ul>
      <h1> <%= package.name %> (<%= package.version %>) </h1>
      <h4> <%= package.description %> </h4>
@@ -43,7 +48,7 @@ defmodule Expm.Server.Templates do
      </table>
      <h4>package.exs:</h4>
      <pre><%= inspect package %></pre>
-    },[:package]
+    },[:package, :repo]
 
   EEx.function_from_string :def, :page,
     %b{

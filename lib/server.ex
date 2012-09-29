@@ -109,10 +109,10 @@ defmodule Expm.Server.Http do
     {package, req} = Req.binding(:package, req)  
     case Enum.reverse(List.sort(Expm.Repository.versions repository, package)) do 
       [] -> pkg = "ERROR: No such package"
-      [version] -> 
+      [version|_] -> 
             pkg = Expm.Repository.get repository, package, version
     end
-    out = render_page(Expm.Server.Templates.package(pkg), req, state)
+    out = render_page(Expm.Server.Templates.package(pkg, repository), req, state)
     {out, req, state}
   end
 
@@ -121,7 +121,7 @@ defmodule Expm.Server.Http do
     {version, req} = Req.binding(:version, req)    
     pkg = Expm.Repository.get repository, package, version
     if pkg == :not_found, do: pkg = "ERROR: No such package"
-    out = render_page(Expm.Server.Templates.package(pkg), req, state)
+    out = render_page(Expm.Server.Templates.package(pkg, repository), req, state)
     {out, req, state}
   end
 
