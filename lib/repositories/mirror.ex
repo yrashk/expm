@@ -27,7 +27,7 @@ defimpl Expm.Repository, for: Expm.Repository.Mirror do
   end
 
   def put(repo, spec) do
-    Expm.Repository.puts repo.destination, spec
+    Expm.Repository.put repo.destination, spec
   end
   
   def list(repo, filter) do
