@@ -45,20 +45,20 @@ defmodule Expm.Server.Templates.Package do
       <%= lc repository inlist repositories do %>
         <%= if repository[:github] do %>
           <span class="label label-important">GitHub</span>
-          <a href="https://github.com/<%= repository[:github] %>"><%= repository[:github] %></a>
-        <%  end %>
+          <a href="<%= github_url(repository) %>"><%= repository[:github] %></a>
+        <% end %>
         <%= if repository[:git] do %>
           <span class="label label-important">Git</span>
           <a href="<%= repository[:git] %>"><%= repository[:git] %></a>
-        <%  end %>        
+        <% end %>        
         <%= if repository[:git] do %>
           <span class="label label-important">Git</span>
           <a href="<%= repository[:git] %>"><%= repository[:git] %></a>
-        <%  end %>
+        <% end %>
         <%= if repository[:url] do %>
           <span class="label label-important">URL</span>
           <a href="<%= repository[:url] %>"><%= repository[:url] %></a>
-        <%  end %>
+        <% end %>
       <% end %>
     }, [:repositories]
 
@@ -78,6 +78,16 @@ defmodule Expm.Server.Templates.Package do
       <% end %>
     }, [:people]
 
+  defp github_url(repository) do
+    "https://github.com/#{repository[:github]}" <>
+    cond do
+      repository[:branch] ->
+        "/tree/#{repository[:branch]}"
+      repository[:tag] ->
+        "/tree/#{repository[:tag]}"
+      true -> ""
+     end
+  end
 
   def render(field, value) do
     if function_exported?(__MODULE__, field, 1) do
