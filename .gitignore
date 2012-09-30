@@ -7,3 +7,4 @@ sys.config
 /expm
 /expm.dat
 /priv/static/expm
+.erlang.cookie
