@@ -1,4 +1,20 @@
-defrecord Expm.Repository.HTTP, url: "http://expm.co", username: nil, password: nil
+defrecord Expm.Repository.HTTP, url: "http://expm.co", username: nil, password: nil do
+  alias :hackney, as: H
+
+  def version(repo) do
+    {:ok, 200, _headers, client} = 
+      H.request("GET", "#{repo.url}/__version__",
+                [
+                 {"content-type","text/html"},
+                 {"accept", "text/html"}                 
+                ],
+                "", [follow_redirect: true])
+    {:ok, body, client} = H.body(client)
+    H.close(client)
+    body
+  end
+
+end
 
 
 defmodule Expm.Repository.HTTP.Decoder do

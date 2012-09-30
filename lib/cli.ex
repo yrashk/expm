@@ -7,6 +7,14 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
         IO.puts Expm.version
     end
   end
+
+  def run(["server"], rec) do
+    cond do
+      rec.version == true ->
+        IO.puts repo(rec).version
+    end
+  end
+
   def run(["list"], rec) do
     run(["search", ""], rec)
   end
