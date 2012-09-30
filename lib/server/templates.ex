@@ -184,6 +184,7 @@ defmodule Expm.Server.Templates do
                       </li>
                       <li><a href="https://github.com/yrashk/expm/blob/master/USING.md">Using</a></li>
                       <li><a href="https://github.com/yrashk/expm/blob/master/PUBLISHING.md">Publishing</a></li>
+                      <li><a href="https://github.com/yrashk/expm/blob/master/HOSTING.md">Hosting</a></li>
                     </ul>
                   </div><!--/.nav-collapse -->
                 </div>
