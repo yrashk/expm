@@ -31,7 +31,7 @@ Command line
 The easiest way to publish a package is to use `expm` command line utility:
 
 ```
-$ expm --username USERNAME --password publish [package.exs]
+$ expm --username USERNAME --password PASSWORD publish [package.exs]
 ```
 
 If it prints out package specification, everything went fine.
