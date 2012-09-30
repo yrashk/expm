@@ -1,5 +1,5 @@
 defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, password: nil,
-                    version: false do
+                    version: false, format: "asis" do
 
   def run([], rec) do
     cond do
@@ -36,7 +36,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
       :not_found ->
         IO.puts "No such package"
       _ -> 
-        IO.inspect spec_field(pkg, field)
+        IO.inspect spec_field(pkg, field, rec)
     end
   end
 
@@ -47,7 +47,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
       :not_found ->
         IO.puts "No such package"
       _ -> 
-        IO.inspect spec_field(pkg, field)
+        IO.inspect spec_field(pkg, field, rec)
     end
   end
 
@@ -71,10 +71,19 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
     IO.puts "Invalid command"
   end
 
-  defp spec_field(pkg, ""), do: pkg
-  defp spec_field(pkg, <<":", field :: binary>>) do
+  defp spec_field(pkg, "", rec), do: do_format(pkg, format(rec))
+  defp spec_field(pkg, <<":", field :: binary>>, _rec) do
    field = binary_to_atom field
    apply(pkg,field,[])
+  end
+
+  defp formats, do: [
+                     {"mix", Expm.Package.Format.Mix},
+                     {"asis", Expm.Package.Format.Asis},
+                    ]
+  defp do_format(pkg, format) do
+    formatter = :proplists.get_value(String.downcase(format), formats, Expm.Package.Format.Asis)
+    apply(formatter,:format, [pkg, []])
   end
 
   defp repo(rec) do

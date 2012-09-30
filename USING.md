@@ -69,13 +69,13 @@ Lists all packages in the repository
 
 Searches all packages that match the KEYWORD. KEYWORD can be a partial regular expression.
 
-#### spec[:FIELD] PACKAGE
+#### spec[:FIELD] PACKAGE [--format mix|asis]
 
 Prints out topmost PACKAGE's version's specification.
 
 If FIELD is specified, only that field is printed.
 
-#### spec[:FIELD] PACKAGE VERSION
+#### spec[:FIELD] PACKAGE VERSION [--format mix|asis]
 
 Prints out specific PACKAGE's VERSION's specification.
 
