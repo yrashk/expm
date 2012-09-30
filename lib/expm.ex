@@ -20,6 +20,12 @@ defmodule Expm do
     end
   end
 
+  def version do
+    :application.load(:expm)
+    {:ok, vsn} = :application.get_key(:expm, :vsn)
+    to_binary vsn    
+  end
+
   use Application.Behaviour
   def start(start_type, start_args) do
     {:ok, m} = :application.get_env(:expm, :app_module)
