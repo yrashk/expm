@@ -182,6 +182,7 @@ defmodule Expm.Server.Templates do
                           <input type="text" name="q" class="search-query" placeholder="Search">  
                         </form>                        
                       </li>
+                      <li><a href="https://github.com/yrashk/expm/blob/master/USING.md">Using</a></li>
                     </ul>
                   </div><!--/.nav-collapse -->
                 </div>
