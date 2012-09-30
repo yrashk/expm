@@ -1,0 +1,11 @@
+<h1><%= title %> (<%= length(pkgs) %>)</h1>
+<table class="table table-striped table-hover">
+ <tbody>
+ <%= lc pkg inlist pkgs do %>
+   <tr>
+   <td><a href="<%= pkg.name %>"><%= pkg.name %></a></td>
+   <td><%= pkg.description %></td>
+   </tr>
+ <% end %>
+ </tbody>
+</table>

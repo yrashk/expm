@@ -1,0 +1,36 @@
+<ul class="breadcrumb">
+ <li><a href="/<%= package.name %>"><%= package.name %></a> <span class="divider"> :: </span></li>       
+ <%= lc version inlist Expm.Package.versions(repo, package.name) do %>
+  <%= if version == package.version do %>
+    <li class="active"><%= package.version %><span class="divider">|</span></li>       
+  <% else %>
+    <li><a href="/<%= package.name %>/<%= version %>"><%= version %></a> <span class="divider">|</span></li>       
+  <% end %>          
+ <% end %>
+</ul>
+<h1> <%= package.name %> (<%= package.version %>) </h1>
+<h4> <%= package.description %> </h4>
+<table class="table table-bordered table-striped">
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Value</th>
+</tr>
+</thead>
+<tbody>
+<%= lc {field, value} inlist package.to_keywords do %>
+   <tr>
+     <td><b><%= to_binary field %></b></td>
+     <td><%= Expm.Server.Templates.Package.render(field,value) %></td>
+   </tr>
+<% end %>
+</tbody>
+</table>
+<h4>package.exs:</h4>
+<pre><%= inspect package %></pre>
+<script type="text/javascript">
+ var expmPackageName = "<%= package.name %>";
+</script>
+<%= if Application.environment(:expm)[:package_footer] do %>
+ <%= Application.environment(:expm)[:package_footer] %>
+<% end %>
