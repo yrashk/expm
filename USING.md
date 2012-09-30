@@ -12,7 +12,7 @@ expm has a very few basic primitives:
 
 * Package, represented by specification defined by Expm.Package record
 * Package version: named and specific. Named versions are atoms and specific versions are binaries (Like `:head` and `"0.1"`). Package version is part of package specification (Expm.Package.version)
-* Repository, an entity that implements Expm.Repository protocol. Normally all you need to know is Expm.Repository.HTTP type of repositories. This is what expm uses by default (pointing to (http://expm.co)[expm.co] repository)
+* Repository, an entity that implements Expm.Repository protocol. Normally all you need to know is Expm.Repository.HTTP type of repositories. This is what expm uses by default (pointing to [http://expm.co](expm.co) repository)
 
 
 Command line
@@ -24,7 +24,7 @@ There are two ways to get expm's command line utility:
 
 #### Ready-made
 
-Go (http://expm.co/)[http://expm.co/] and grab it using the download link at the bottom. If you want to do this automatically, use this shell command:
+Go [http://expm.co/](http://expm.co/) and grab it using the download link at the bottom. If you want to do this automatically, use this shell command:
 
 ```
 curl -o expm http://expm.co/`curl http://expm.co/__version__`/expm
@@ -38,7 +38,7 @@ chmod +x expm
 
 #### DIY
 
-Clone (yrashk/expm)[https://github.com/yrashk/expm] and type `make`. Please note, however,
+Clone [yrashk/expm](https://github.com/yrashk/expm) and type `make`. Please note, however,
 that for this to work, Elixir (normally the very latest `master` at this moment) has to be built and its binaries should be in your `PATH`
 
 ### Usage
@@ -47,7 +47,7 @@ that for this to work, Elixir (normally the very latest `master` at this moment)
 
 * --repository URL (-r URL)
 
-By default, this is (http://expm.co/)[http://expm.co/]
+By default, this is [http://expm.co/](http://expm.co/)
 
 * --username USER and --password PASSWORD
 
@@ -92,7 +92,7 @@ Publishes package to the repository. If the file name is omitted, `package.exs` 
 Web interface
 -------------
 
-Web interface allows you to browse and search packages using your browser. The central repository is available at (expm.co)[http://expm.co]
+Web interface allows you to browse and search packages using your browser. The central repository is available at [expm.co](http://expm.co)
 
 Programmatically
 ----------------
