@@ -36,7 +36,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
       :not_found ->
         IO.puts "No such package"
       _ -> 
-        IO.inspect spec_field(pkg, field, rec)
+        IO.puts spec_field(pkg, field, rec)
     end
   end
 
@@ -47,7 +47,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
       :not_found ->
         IO.puts "No such package"
       _ -> 
-        IO.inspect spec_field(pkg, field, rec)
+        IO.puts spec_field(pkg, field, rec)
     end
   end
 
@@ -74,18 +74,19 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
   defp spec_field(pkg, "", rec), do: do_format(pkg, rec)
   defp spec_field(pkg, <<":", field :: binary>>, _rec) do
    field = binary_to_atom field
-   apply(pkg,field,[])
+   inspect apply(pkg,field,[])
   end
 
   defp formats, do: [
                      {"mix", Expm.Package.Format.Mix},
+                     {"rebar", Expm.Package.Format.Rebar},
                      {"asis", Expm.Package.Format.Asis},
                     ]
   defp do_format(pkg, rec) do
     format = format(rec)
     {format_opts, _} = Code.eval format_opts(rec)
     formatter = :proplists.get_value(String.downcase(format), formats, Expm.Package.Format.Asis)
-    apply(formatter,:format, [pkg, format_opts])
+    apply(formatter, :to_binary, [apply(formatter,:format, [pkg, format_opts])])
   end
 
   defp repo(rec) do
