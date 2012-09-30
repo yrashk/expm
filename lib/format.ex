@@ -6,3 +6,9 @@ defmodule Expm.Package.Format.Mix do
     }
   end
 end
+
+defmodule Expm.Package.Format.Asis do
+  def format(pkg, _options) do
+    pkg
+  end
+end
