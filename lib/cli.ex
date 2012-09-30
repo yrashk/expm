@@ -1,5 +1,5 @@
 defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, password: nil,
-                    version: false, format: "asis" do
+                    version: false, format: "asis", format_opts: [] do
 
   def run([], rec) do
     cond do
@@ -71,7 +71,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
     IO.puts "Invalid command"
   end
 
-  defp spec_field(pkg, "", rec), do: do_format(pkg, format(rec))
+  defp spec_field(pkg, "", rec), do: do_format(pkg, rec)
   defp spec_field(pkg, <<":", field :: binary>>, _rec) do
    field = binary_to_atom field
    apply(pkg,field,[])
@@ -81,9 +81,11 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
                      {"mix", Expm.Package.Format.Mix},
                      {"asis", Expm.Package.Format.Asis},
                     ]
-  defp do_format(pkg, format) do
+  defp do_format(pkg, rec) do
+    format = format(rec)
+    {format_opts, _} = Code.eval format_opts(rec)
     formatter = :proplists.get_value(String.downcase(format), formats, Expm.Package.Format.Asis)
-    apply(formatter,:format, [pkg, []])
+    apply(formatter,:format, [pkg, format_opts])
   end
 
   defp repo(rec) do
