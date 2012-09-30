@@ -8,7 +8,7 @@ Defining a package
 
 Every expm package is defined using `Expm.Package` record (look at the [example](https://github.com/yrashk/expm/blob/master/package.exs))
 
-Normally you put this definition into `package.exs'. However, if you're intending to publish named versions as well (such as `:head`), our suggestion is to put such package definitions into `package.NAME.exs` (like [here](https://github.com/yrashk/expm/blob/master/package.head.exs))
+Normally you put this definition into `package.exs`. However, if you're intending to publish named versions as well (such as `:head`), our suggestion is to put such package definitions into `package.NAME.exs` (like [here](https://github.com/yrashk/expm/blob/master/package.head.exs))
 
 Authorization
 -------------
@@ -21,7 +21,7 @@ At this moment it is not possible to delegate the package maintainership to some
 
 ### Security considerations
 
-Although the server will not store your password in plaintext, it would still be advisable to use a separate password from any other system you use. Besides, until [expm.co](http://expm.co) will get an HTTPS certificate, your password will be transmitted as basic HTTP auth (which means it is almost plaintext).
+Although the server will not store your password in plaintext, it would still be advisable to use a separate password from any other system you use. Besides, until [expm.co](http://expm.co) gets an HTTPS certificate, your password will be transmitted as basic HTTP auth (which means it is almost plaintext).
 
 We do plan to equip [expm.co](http://expm.co) with the certificate to make it more secure.
 
