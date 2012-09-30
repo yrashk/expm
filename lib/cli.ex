@@ -1,5 +1,12 @@
-defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, password: nil do
+defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, password: nil,
+                    version: false do
 
+  def run([], rec) do
+    cond do
+      rec.version == true ->
+        IO.puts Expm.version
+    end
+  end
   def run(["list"], rec) do
     run(["search", ""], rec)
   end
