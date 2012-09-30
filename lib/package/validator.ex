@@ -3,10 +3,9 @@ defmodule Expm.Package.Validator do
 
   def validation(package) do
     [
-      {:name, package.name, V.Format.new(re: %r/^([a-z]|_|-|[0-9])+$/i)},
+      {:name, package.name, name_format_validation},
       {:description, package.description, V.Format.new(re: %r/.*/i, allow_nil: true, allow_empty: true)},
-      {:version, package.version, V.Union.new(options: [V.Type.new(is: :atom, allow_nil: false, allow_undefined: false),
-                                                        V.Format.new(re: %r/([0-9])(([0-9]\.)*(-.+)?)?/i)])},
+      {:version, package.version, version_format_validation},
       {:keywords, package.keywords, V.Type.new(is: :list)},
       {:maintainers, package.maintainers, V.Type.new(is: :list)},
       {:maintainers, package.maintainers, V.Length.new(is: V.Range.new(from: 1))},
@@ -15,6 +14,7 @@ defmodule Expm.Package.Validator do
       {:directories, package.directories, V.Type.new(is: :list)},
       {:repositories, package.repositories, V.Type.new(is: :list)},
       {:repositories, package.repositories, V.Length.new(is: V.Range.new(from: 1))},      
+      {:dependencies, package.dependencies, V.Type.new(is: :list)},      
     ] ++
     lc keyword inlist package.keywords do
       {{:keyword, keyword}, keyword, V.Neg.new(message: :disallowed_characters, validation: V.Format.new(re: %r/[\s,]+/i))}
@@ -45,7 +45,25 @@ defmodule Expm.Package.Validator do
       else
        []
       end 
-    end)
+    end) ++
+    List.flatten(
+    lc dependency inlist package.dependencies do
+      [{{:dependency, dependency}, dependency, 
+       V.Union.new(options: [
+         name_format_validation,
+         V.All.new(options: [
+          V.Type.new(is: :tuple),
+          V.Length.new(is: 2)
+         ])
+       ])}] ++
+       if match?({dep_name, dep_ver}, dependency) do
+        [{{:dependency, dependency}, dep_name, name_format_validation},
+         {{:dependency, dependency}, dep_ver, version_format_validation},
+        ]
+       else
+        []
+       end
+    end)    
   end
 
   def validate(package) do
@@ -62,5 +80,14 @@ defmodule Expm.Package.Validator do
       {{t, v}, v[:name], V.Type.new(is: :string)},
       {{t, v}, v[:email],V.Type.new(is: :string, allow_nil: true)},
     ]
+  end
+
+  defp name_format_validation do
+    V.Format.new(re: %r/^([a-z]|_|-|[0-9])+$/i)  
+  end
+
+  defp version_format_validation do
+    V.Union.new(options: [V.Type.new(is: :atom, allow_nil: false, allow_undefined: false),
+                          V.Format.new(re: %r/([0-9])(([0-9]\.)*(-.+)?)?/i)])  
   end
 end
