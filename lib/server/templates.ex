@@ -183,6 +183,7 @@ defmodule Expm.Server.Templates do
                         </form>                        
                       </li>
                       <li><a href="https://github.com/yrashk/expm/blob/master/USING.md">Using</a></li>
+                      <li><a href="https://github.com/yrashk/expm/blob/master/PUBLISHING.md">Publishing</a></li>
                     </ul>
                   </div><!--/.nav-collapse -->
                 </div>
@@ -209,14 +210,6 @@ defmodule Expm.Server.Templates do
                 <p>
                   <code>expm -r http://<%= @host %><%= @port %> list</code>
                 </p>
-                <p>To publish a package:</p>
-
-                <p><code>expm --username ... --password ... -r http://<%= @host %><%= @port %> publish [package.exs]</code></p>
-
-                <p>
-                Please note that you don't need to signup to get an account. User name and password
-                combinations are per package, and this authentication combination gets automatically attached
-                to a newly claimed package.
               </div>
               <hr>
 
