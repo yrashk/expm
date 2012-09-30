@@ -68,6 +68,18 @@ defmodule Expm.Server.Templates.Package do
       <%= version %>
     }, [:version]
 
+  EEx.function_from_string :def, :dependencies,
+    %b|
+      <%= lc dependency inlist dependencies do %>
+        <%= if is_binary(dependency) do %>
+          <a href="/<%= dependency %>" class="btn btn-mini btn-info"><%= dependency %></a>
+        <% end %>
+        <%= if match?({name, version}, dependency) do %>
+          <a href="/<%= name %>/<%= version %>" class="btn btn-mini btn-info"><%= name %> (<em><%= version %></em>)</a>
+        <% end %>        
+      <% end %>
+    |, [:dependencies]
+
   def maintainers(maintainers), do: people(maintainers)
   def contributors(contributors), do: people(contributors)
 
