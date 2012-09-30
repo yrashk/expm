@@ -11,8 +11,12 @@ defrecord Expm.Repository.Mirror, source: nil, destination: nil, frequency: 1000
   end
 
   def update(rec) do
-    pkgs = Expm.Package.all source(rec)
-    lc pkg inlist pkgs, do: Expm.Package.publish destination(rec), pkg
+    src = source(rec)
+    pkgs = Expm.Package.all src
+    lc pkg inlist pkgs, version inlist Expm.Package.versions(src, pkg.name) do
+      package = Expm.Package.fetch source(rec), pkg.name, version
+      Expm.Package.publish destination(rec), package
+    end
   end
 end
 
