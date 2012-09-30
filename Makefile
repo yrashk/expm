@@ -7,6 +7,7 @@ ebin:
 
 expm: ebin
 	@mix escriptize
+	@cp ./expm priv/static
 
-start: ebin
+start: expm
 	@foreman start

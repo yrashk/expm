@@ -220,7 +220,7 @@ defmodule Expm.Server.Templates do
               <hr>
 
               <div class="row">
-                <center><small>Running expm <%= Expm.version %> on Elixir 
+                <center><small>Running expm <%= Expm.version %> (<a href="/<%= Expm.version %>/expm">download</a>) on Elixir 
                 <%= System.version %> (<%= \{_, sha, _\} = System.build_info ; sha %>)
                 </small></center>
               </div>
