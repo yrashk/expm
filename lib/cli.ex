@@ -5,6 +5,8 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
     cond do
       rec.version == true ->
         IO.puts Expm.version
+      true ->
+        run(nil, rec)
     end
   end
 
