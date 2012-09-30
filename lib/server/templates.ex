@@ -205,11 +205,7 @@ defmodule Expm.Server.Templates do
               <hr>
 
               <div class="row well" style="margin-top: 40px">
-                <p>This repository is available over HTTP:</p>
-                   
-                <p>
-                  <code>expm -r http://<%= @host %><%= @port %> list</code>
-                </p>
+                This repository is available over HTTP: <code>http://<%= @host %><%= @port %></code>
               </div>
               <hr>
 
