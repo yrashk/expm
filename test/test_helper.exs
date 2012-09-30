@@ -1,2 +1,1 @@
-Expm.start
 ExUnit.start
