@@ -80,6 +80,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
   defp formats, do: [
                      {"mix", Expm.Package.Format.Mix},
                      {"rebar", Expm.Package.Format.Rebar},
+                     {"scm", Expm.Package.Format.SCM},
                      {"asis", Expm.Package.Format.Asis},
                     ]
   defp do_format(pkg, rec) do

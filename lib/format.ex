@@ -37,6 +37,30 @@ defmodule Expm.Package.Format.Rebar do
   def to_binary(x), do: :io_lib.format("~p",[x])
 end
 
+defmodule Expm.Package.Format.SCM do
+  def format(pkg, options) do
+    r = hd(pkg.repositories)
+    command = options[:command] || :checkout
+    scm(command, pkg.name, scm_system(r))
+  end
+
+  defp scm(:checkout, name, {:git, r}) do
+    ref = r[:branch] || r[:tag]
+    "git clone #{r[:git]} #{name} && cd #{name}" <>
+     (if ref, do: " && git checkout #{ref}", else: "")
+  end
+
+  defp scm_system(r) do
+    cond do
+      r[:github] -> {:git, Keyword.put(r, :git, "https://github.com/#{r[:github]}")}
+      r[:git] -> {:git, r}
+    end
+  end
+
+  def to_binary(x), do: x
+end
+
+
 defmodule Expm.Package.Format.Asis do
   def format(pkg, _options) do
     pkg
