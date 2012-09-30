@@ -203,12 +203,9 @@ defmodule Expm.Server.Templates do
                 <%= content %>
               </div>
               <hr>
-
-              <div class="row well" style="margin-top: 40px">
-                This repository is available over HTTP: <code>http://<%= @host %><%= @port %></code>
+              <div class="row">
+                <center>This repository is available over HTTP: <code>http://<%= @host %><%= @port %></code></center>
               </div>
-              <hr>
-
               <div class="row">
                 <center><small>Running expm <%= Expm.version %> (<a href="/<%= Expm.version %>/expm">download</a>) on Elixir 
                 <%= System.version %> (<%= \{_, sha, _\} = System.build_info ; sha %>)
