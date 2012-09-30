@@ -17,6 +17,7 @@ defmodule Expm.Mixfile do
 
   defp deps do
     [
+      {:validatex, %r(.*), github: "yrashk/validatex"},
       {:hackney, %r(.*), github: "benoitc/hackney"},
       {:mimetypes, %r(.*), github: "spawngrid/mimetypes"},
       {:edown, %r(.*), github: "esl/edown"},

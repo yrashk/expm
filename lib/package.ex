@@ -107,4 +107,6 @@ defrecord Expm.Package,
     pkg
   end
 
+  defdelegate [valid?(package), validate(package)], to: Expm.Package.Validator
+
 end
