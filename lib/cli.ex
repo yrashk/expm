@@ -179,6 +179,26 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
     pkg = Expm.Package.read(file)
     IO.inspect pkg.publish(repo(rec))
   end
+
+  @shortdoc "Create new package"
+  @doc """
+  $ expm new
+
+  Creates a new template for a package in package.exs
+  """
+  command(["new"], rec) do
+    run(["new","package.exs"], rec)
+  end
+
+  @shortdoc :skip
+  @doc """
+  $ expm new [filename.exs]
+
+  Creates a new template for a package in filename.exs
+  """
+  command(["new", filename], _rec) do
+    File.write filename, Expm.Package.file_template([])
+  end
   
   @shortdoc :skip
   @doc """

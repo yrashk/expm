@@ -33,6 +33,15 @@ defrecord Expm.Package,
   deflist directories, directory
   deflist platforms, platform
 
+  require EEx
+  EEx.function_from_string :def, :file_template,
+    %b{Expm.Package.new(name: "<%= @name || "yourlib" %>", description: "<%= @description %>",
+                 version: "<%= @version || "0.0.1" %>", keywords: [], 
+                 maintainers: [[name: "<%= @author || "Your Name" %>", 
+                                email: "<%= @email || "your@email.com" %>"]],
+                 repositories: [[github: "user/repo"]])
+    }, [:assigns]
+
   def encode(rec) do
     inspect(rec)
   end
