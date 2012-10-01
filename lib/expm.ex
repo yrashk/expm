@@ -21,8 +21,9 @@ defmodule Expm do
   end
 
   def version do
-    :application.load(:expm)
-    {:ok, vsn} = :application.get_key(:expm, :vsn)
+    appfile = File.join(File.dirname(:code.which(__MODULE__)),"expm.app")
+    {:ok, [{:application, :expm, app}]} = :file.consult(appfile)
+    vsn = :proplists.get_value(:vsn, app)
     to_binary vsn    
   end
 
