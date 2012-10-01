@@ -12,7 +12,7 @@ defmodule Expm.Server do
             {["favicon.ico"], :cowboy_static, [file: "favicon.ico", directory: static_dir]},     
             {["#{Expm.version}","expm"], :cowboy_static, [file: "expm", directory: static_dir]},                 
             {["s",:'...'], :cowboy_static, [directory: static_dir, mimetypes: {function(:mimetypes,:path_to_mimes,2), :default}]},     
-            {["__version__"], Expm.Server.Http, [repository: repository, endpoint: :version]},      
+            {["__version__"], Expm.Server.Http.Version, []},      
             {[:package], Expm.Server.Http, [repository: repository, endpoint: :package]},      
             {[:package, :version], Expm.Server.Http, [repository: repository, endpoint: :package_version]},
             ]},
@@ -103,11 +103,6 @@ defmodule Expm.Server.Http do
     pkgs = Expm.Package.filter repository, filter
     req = Req.set_resp_body(inspect(pkgs), req)
     {true, req, state}
-  end
-
-  def to_html(req, State[endpoint: :version] = state) do
-    out = Expm.version
-    {out, req, state}
   end
 
   def to_html(req, State[endpoint: :list, repository: repository] = state) do
