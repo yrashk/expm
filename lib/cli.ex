@@ -197,7 +197,10 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
   Creates a new template for a package in filename.exs
   """
   command(["new", filename], _rec) do
-    File.write filename, Expm.Package.file_template([])
+    if (File.exists?(filename) and Regex.match?(%r/^(Y(es)?)?$/i, IO.gets("File #{filename} exists. Overwrite? [Yn] "))) or
+       not File.exists?(filename) do
+       File.write filename, Expm.Package.file_template([])
+    end    
   end
   
   @shortdoc :skip
