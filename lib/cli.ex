@@ -104,12 +104,12 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
 
   @shortdoc "Show package specification"
   @doc """
-  $ expm spec[:FIELD] PACKAGE [--format mix|rebar|asis] [--format-opts OPTS]
+  $ expm spec[:FIELD] PACKAGE [--format mix|rebar|scm|asis] [--format-opts OPTS]
 
       Prints out topmost PACKAGE's version's specification.
       If FIELD is specified, only that field is printed.
 
-  $ expm spec[:FIELD] PACKAGE VERSION [--format mix|rebar|asis] [--format-opts OPTS]
+  $ expm spec[:FIELD] PACKAGE VERSION [--format mix|rebar|scm|asis] [--format-opts OPTS]
 
       Prints out specific PACKAGE's VERSION's specification.
 
