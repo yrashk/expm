@@ -116,7 +116,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
 
   #{repository_switch_doc}
   """
-  command(["spec", _package], rec) do
+  command(["spec"], rec) do
     run(["help","spec"], rec)
   end
   def run([<<"spec", field :: binary>>, package], rec) do
