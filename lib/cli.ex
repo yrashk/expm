@@ -7,6 +7,7 @@ defmodule Expm.CLI.Command do
   end
   defmacro command(pattern, arg, body) do
     command = if pattern == [], do: "<no command>", else: hd(pattern)
+    match?({:"<<>>", _, [command|_]},command)
     quote do
       @command {unquote(command), @doc, @shortdoc}
       Module.delete_attribute __MODULE__, :doc
@@ -116,10 +117,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
 
   #{repository_switch_doc}
   """
-  command(["spec"], rec) do
-    run(["help","spec"], rec)
-  end
-  def run([<<"spec", field :: binary>>, package], rec) do
+  command([<<"spec", field :: binary>>, package], rec) do
     repo = repo(rec)
     pkg = Expm.Package.fetch repo, package
     case pkg do
