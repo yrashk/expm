@@ -4,6 +4,7 @@ erl_crash.dump
 log
 /priv/motd
 sys.config
+sys.config.exs
 /expm
 /expm.dat
 /priv/static/expm
