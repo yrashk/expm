@@ -4,4 +4,5 @@ Expm.Package.new(name: "expm", description: "Elixir package manager",
                  repositories: [[github: "yrashk/expm"]],
                  dependencies: [{"validatex", :head},
                                 "mimetypes",
-                                "genx"])
+                                "genx",
+                                "exreloader"])
