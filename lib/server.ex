@@ -33,7 +33,7 @@ defmodule Expm.Server.Http do
 
   alias :cowboy_req, as: Req
 
-  defrecord State, opts: [], endpoint: nil, repository: nil
+  defrecord State, opts: [], endpoint: nil, repository: nil, package: nil
 
   def init({:tcp, :http}, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
@@ -83,6 +83,23 @@ defmodule Expm.Server.Http do
     {[{{"application","elixir", []}, :process_elixir}], req, state}
   end
 
+  def resource_exists(req, State[endpoint: :package, repository: repository] = state) do
+    {package, req} = Req.binding(:package, req)  
+    pkg = Expm.Package.fetch repository, package
+    {pkg != :not_found, req, state.package(pkg)}
+  end
+
+  def resource_exists(req, State[endpoint: :package_version, repository: repository] = state) do
+    {package, req} = Req.binding(:package, req)  
+    {version, req} = Req.binding(:version, req)        
+    pkg = Expm.Package.fetch repository, package, version
+    {pkg != :not_found, req, state.package(pkg)}
+  end
+
+  def resource_exists(req, state) do
+    {true, req, state}
+  end
+
   def process_elixir(req, State[endpoint: :package, repository: repository] = state) do
     {:ok, body, req} = Req.body(req)
     pkg = Expm.Package.decode body
@@ -113,33 +130,22 @@ defmodule Expm.Server.Http do
     {out, req, state}
   end
 
-  def to_html(req, State[endpoint: :package, repository: repository] = state) do
-    {package, req} = Req.binding(:package, req)  
-    pkg = Expm.Package.fetch repository, package
-    if pkg == :not_found, do: pkg = "ERROR: No such package"    
+  def to_html(req, State[endpoint: :package, repository: repository, package: pkg] = state) do
     out = render_page(Expm.Server.Templates.package(pkg, repository), req, state)
     {out, req, state}
   end
 
-  def to_html(req, State[endpoint: :package_version, repository: repository] = state) do
-    {package, req} = Req.binding(:package, req)  
-    {version, req} = Req.binding(:version, req)    
-    pkg = Expm.Package.fetch repository, package, version
-    if pkg == :not_found, do: pkg = "ERROR: No such package"
+  def to_html(req, State[endpoint: :package_version, repository: repository, package: pkg] = state) do
     out = render_page(Expm.Server.Templates.package(pkg, repository), req, state)
     {out, req, state}
   end
 
-  def to_elixir(req, State[endpoint: :package_version, repository: repository] = state) do
-    {package, req} = Req.binding(:package, req)
-    {version, req} = Req.binding(:version, req)
-    pkg = Expm.Package.fetch repository, package, version
+  def to_elixir(req, State[endpoint: :package_version, package: pkg] = state) do
     {pkg.encode, req, state}
   end
 
-  def to_elixir(req, State[endpoint: :package, repository: repository] = state) do
-    {package, req} = Req.binding(:package, req)
-    versions = Expm.Package.versions repository, package
+  def to_elixir(req, State[endpoint: :package, repository: repository, package: pkg] = state) do
+    versions = Expm.Package.versions repository, pkg.name
     {inspect(versions), req, state}
   end
 
