@@ -202,6 +202,36 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
        File.write filename, Expm.Package.file_template([])
     end    
   end
+
+  @shortdoc "Set user config value"
+  @doc """
+  $$$ expm config:set [option] [value]
+
+  Sets user config's option to value
+
+  Example:
+
+  $ expm config:set username johndoe
+  """
+  command(["config:set", name, value], _rec) do
+    Expm.UserConfig.set(binary_to_atom(name), value)
+  end
+
+  @shortdoc "Set user config value"
+  @doc """
+  $$$ expm config:get [option]
+
+  Gets user config's option value
+
+  Example:
+
+  $ expm config:get username
+  """
+  command(["config:get", name], _rec) do
+    if val = Expm.UserConfig.get(binary_to_atom(name)) do
+      IO.puts val
+    end
+  end
   
   @shortdoc :skip
   @doc """

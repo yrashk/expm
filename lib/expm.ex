@@ -47,6 +47,7 @@ defmodule Expm do
                        aliases: [
                                  r: :repository, 
                                 ])
+    opts = Keyword.merge Expm.UserConfig.read, opts        
     Expm.CLI.new(opts).run(commands)
   end
 end
