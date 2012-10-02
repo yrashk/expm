@@ -35,8 +35,7 @@
         <div class="well hero-unit">
           <h1><%= Application.environment(:expm)[:site_title] %></h1>
           <div><%= Application.environment(:expm)[:site_subtitle] %></div>
-          <p class="alert" id="motd">
-            <a class="close" data-dismiss="alert" href="#">&times;</a>
+          <p>
             <%= @motd %>
           </p>
         </div>
