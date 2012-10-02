@@ -93,7 +93,7 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
   def put(repo, spec) do
     {:ok, code, _headers, client} = 
       H.request("PUT", "#{repo.url}/#{spec.name}",
-                [{"authorization",%b{Basic #{:base64.encode("#{repo.username}:{repo.password}")}}},
+                [{"authorization",%b{Basic #{:base64.encode("#{repo.username}:#{repo.password}")}}},
                  {"content-type","application/elixir"},
                  {"accept", "application/elixir"}                 
                  ],
