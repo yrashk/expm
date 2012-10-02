@@ -1,7 +1,7 @@
 Hosting expm Repository
 =======================
 
-It's fairly straightforward. Check out expm repository, run `make`, copy `sys.config.sample.exs` to `sys.config.exs` and edit itand run `make start` (make sure foreman is installed, or consult with Procfile on how to run the server without it)
+It's fairly straightforward. Check out expm repository, run `make`, copy `sys.config.sample.exs` to `sys.config.exs` and edit it and run `make start`.
 
 By default, it will run its own independent repository. If you, however, want to become a mirror, put something like this into your `sys.config.exs`:
 
