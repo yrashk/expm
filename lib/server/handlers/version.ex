@@ -1,10 +1,5 @@
 defmodule Expm.Server.Http.Version do
-
-  alias :cowboy_req, as: Req
-
-  def init({:tcp, :http}, _req, _opts) do
-    {:upgrade, :protocol, :cowboy_rest}
-  end
+  use Expm.Server.Http
 
   def rest_init(req, opts) do
     {:ok, req, opts}
