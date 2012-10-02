@@ -1,10 +1,9 @@
 [expm:
   [app_module: Expm.Server,
-   datafile: "expm.dat",
    http_port: 8080,
    site_title: "Elixir Packages",
    site_subtitle: %b{<small>A repository for publishing <a href="http://elixir-lang.org">Elixir</a> & <a href="http://erlang.org">Erlang</a> packages</small>},
-   repository: "Expm.Repository.DETS.new filename: env[:datafile]"],
+   repository: quote do: Expm.Repository.DETS.new(filename: "expm.dat")],
  lager:
    [handlers: [
      {:lager_console_backend, :info},
