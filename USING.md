@@ -27,7 +27,7 @@ There are two ways to get expm's command line utility:
 Go [http://expm.co/](http://expm.co/) and grab it using the download link at the bottom. If you want to do this automatically, use this shell command:
 
 ```
-curl -o expm http://expm.co/`curl http://expm.co/__version__`/expm
+curl -o expm http://expm.co/__download__/expm
 ```
 
 After downloading the binary, make it executable:

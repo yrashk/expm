@@ -11,7 +11,7 @@ defmodule Expm.Server do
    dispatch = [
       {:_, [{[], Expm.Server.Http, [repository: repository, endpoint: :list]},     
             {["favicon.ico"], :cowboy_static, [file: "favicon.ico", directory: static_dir]},     
-            {["#{Expm.version}","expm"], :cowboy_static, [file: "expm", directory: static_dir]},                 
+            {["__download__","expm"], :cowboy_static, [file: "expm", directory: static_dir]},                 
             {["s",:'...'], :cowboy_static, [directory: static_dir, mimetypes: {function(:mimetypes,:path_to_mimes,2), :default}]},     
             {["__version__"], Expm.Server.Http.Version, []},      
             {[:package], Expm.Server.Http, [repository: repository, endpoint: :package]},      

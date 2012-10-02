@@ -20,7 +20,7 @@
                     <input type="text" name="q" class="search-query" placeholder="Search">  
                   </form>                        
                 </li>
-                <li><a href="/<%= Expm.version %>/expm"><i class="icon-download icon-white"></i><strong>Download</strong></a></li>
+                <li><a href="/__download__/expm"><i class="icon-download icon-white"></i><strong>Download</strong></a></li>
                 <li><a href="https://github.com/yrashk/expm/blob/master/USING.md">Using</a></li>
                 <li><a href="https://github.com/yrashk/expm/blob/master/PUBLISHING.md">Publishing</a></li>
                 <li><a href="https://github.com/yrashk/expm/blob/master/HOSTING.md">Hosting</a></li>
@@ -47,7 +47,7 @@
           <center>This repository is available over HTTP: <code>http://<%= @host %><%= @port %></code></center>
         </div>
         <div class="row">
-          <center><small>Running expm <%= Expm.version %> (<a href="/<%= Expm.version %>/expm">download</a>) on Elixir 
+          <center><small>Running expm <%= Expm.version %> (<a href="/__download__/expm">download</a>) on Elixir 
           <%= System.version %> (<%= {_, sha, _} = System.build_info ; sha %>)
           </small></center>
         </div>
