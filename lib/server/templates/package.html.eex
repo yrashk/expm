@@ -34,6 +34,8 @@
 <a name="mix"><h4 id="scm">SCM</h4></a>
 <pre>$ <%= Expm.Package.Format.SCM.to_binary(Expm.Package.Format.SCM.format(package, [])) %></pre>
 
+(Alternatively, you can run <code>expm spec <%= package.name %> <%= package.version %> --format scm | sh</code>)
+
 <a name="mix"><h4 id="package">package.exs</h4></a>
 <pre>$ expm spec <%= package.name %> <%= package.version %></pre>
 
