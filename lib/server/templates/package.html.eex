@@ -37,10 +37,11 @@
 <pre><%= Expm.Package.Format.SCM.to_binary(Expm.Package.Format.SCM.format(package, [])) %></pre>
 
 <a name="mix"><h4 id="package">package.exs:</h4></a>
-<pre><%= inspect package %></pre>
+<pre class="b64"><%= :base64.encode(inspect package) %></pre>
 
 <script type="text/javascript">
  var expmPackageName = "<%= package.name %>";
+ $(document).ready(function() {$('.b64').each(function(i, e) { $(e).text(Base64.decode($(e).text())); $(e).show(); }); });
 </script>
 <%= if Application.environment(:expm)[:package_footer] do %>
  <%= Application.environment(:expm)[:package_footer] %>

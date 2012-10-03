@@ -4,7 +4,10 @@
     <title>EXPM</title>
     <!-- Bootstrap -->
     <link href="/s/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/s/css/application.css" rel="stylesheet">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>    
+    <script src="/s/js/base64.js"></script>    
   </head>
   <body>
 
@@ -55,7 +58,6 @@
       </div>
 
 
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/s/js/bootstrap.min.js"></script>
   </body>
 </html>

@@ -86,7 +86,7 @@ defmodule Expm.Server.Templates.Package do
   EEx.function_from_string :defp, :people,
     %b{
       <%= lc person inlist people do %>
-        <span class="label label-success"><%= person[:name] %> &lt;<%= person[:email] %>&gt;</span>
+        <span class="label label-success"><%= person[:name] %> &lt;<span class="b64"><%= :base64.encode(person[:email]) %></span>&gt;</span>
       <% end %>
     }, [:people]
 
