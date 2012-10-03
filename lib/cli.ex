@@ -208,6 +208,18 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
     end    
   end
 
+  @shortdoc "Display config"
+  @doc """
+  $$$ expm config
+
+  Displays $HOME/.expm.config
+  """
+  command(["config"], _rec) do
+    config = Expm.UserConfig.read
+    lc {key, value} inlist config do
+      :io.format("~-20ts ~ts~n",[key, value || ""])
+    end
+  end
   @shortdoc "Set user config value"
   @doc """
   $$$ expm config:set [option] [value]
