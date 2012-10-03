@@ -2,8 +2,12 @@ defrecord Expm.Repository.Mirror, source: nil, destination: nil, frequency: 1000
   defoverridable new: 1
   def new(opts) do
     rec = super(opts)
-    {:ok, tref } = :timer.apply_interval(frequency(rec), __MODULE__, :update, [rec])
-    timer(tref, rec)
+    case frequency(rec) do
+      nil -> update(rec) ; rec
+      frequency ->
+        {:ok, tref} = :timer.apply_interval(frequency, __MODULE__, :update, [rec])
+        timer(tref, rec)
+    end
   end
 
   def cancel(rec) do
