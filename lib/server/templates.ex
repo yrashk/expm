@@ -80,6 +80,13 @@ defmodule Expm.Server.Templates.Package do
       <% end %>
     |, [:dependencies]
 
+  EEx.function_from_string :def, :licenses,
+    %b{
+      <%= lc license inlist licenses do %>
+        <span class="label label-success"><%= license[:name] %></span>
+      <% end %>
+    }, [:licenses]
+
   def maintainers(maintainers), do: people(maintainers)
   def contributors(contributors), do: people_without_email(contributors)
 
