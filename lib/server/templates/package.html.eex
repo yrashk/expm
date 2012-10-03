@@ -8,8 +8,6 @@
   <% end %>          
  <% end %>
 </ul>
-<h1> <%= package.name %> (<%= package.version %>) </h1>
-<h4> <%= package.description %> </h4>
 <table class="table table-bordered table-striped">
 <thead>
 <tr>

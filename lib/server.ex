@@ -69,8 +69,8 @@ defmodule Expm.Server.Http do
   end
 
 
-  def render_page(content, req, state) do
-    Expm.Server.Templates.page(content, page_assigns(req, state))
+  def render_page(content, req, state, assigns // []) do
+    Expm.Server.Templates.page(content, Keyword.merge(page_assigns(req, state), assigns))
   end
 
   defp page_assigns(req, _state) do
@@ -88,6 +88,8 @@ defmodule Expm.Server.Http do
     else
       port = ":#{port}"
     end  
-    [host: host, port: port, motd: motd]
+    title = Application.environment(:expm)[:site_title]
+    subtitle = Application.environment(:expm)[:site_subtitle]
+    [host: host, port: port, motd: motd, title: title, subtitle: subtitle]
   end
 end

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>EXPM</title>
+    <title>EXPM :: <%= @title %></title>
     <!-- Bootstrap -->
     <link href="/s/css/bootstrap.min.css" rel="stylesheet">
     <link href="/s/css/application.css" rel="stylesheet">
@@ -37,8 +37,8 @@
 
       <div class="container">
         <div class="well hero-unit">
-          <h1><%= Application.environment(:expm)[:site_title] %></h1>
-          <div><%= Application.environment(:expm)[:site_subtitle] %></div>
+          <h1><%= @title %></h1>
+          <h4><%= @subtitle %></h4>
           <p>
             <%= @motd %>
           </p>
