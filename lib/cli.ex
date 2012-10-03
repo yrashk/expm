@@ -277,6 +277,10 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
     end
   end
 
+  def run(_, rec) do
+    run(["help"], rec)
+  end
+
   defp spec_field(pkg, "", rec), do: do_format(pkg, rec)
   defp spec_field(pkg, <<":", field :: binary>>, _rec) do
    field = binary_to_atom field
