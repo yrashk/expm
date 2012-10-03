@@ -25,6 +25,13 @@ defimpl Expm.Repository, for: Expm.Repository.Redundant do
                   Expm.Repository.put repository, spec
                 end)
   end
+
+  def delete(repo, package, version) do
+    Enum.reduce(repo.repositories, :ok,
+                fn(repository, _) ->
+                  Expm.Repository.delete repository, package, version
+                end)
+  end
   
   def list(repo, filter) do
     List.uniq(Enum.reduce(repo.repositories, [],

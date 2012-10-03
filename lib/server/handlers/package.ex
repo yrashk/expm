@@ -56,4 +56,9 @@ defmodule Expm.Server.Http.Package do
     {inspect(versions), req, state}
   end
 
+  def delete_resource(req, State[repository: repository, package: pkg] = state) do
+    {Expm.Package.delete(repository, pkg.name) == :ok, req, state}
+  end
+
+
 end

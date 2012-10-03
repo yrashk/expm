@@ -110,6 +110,22 @@ defrecord Expm.Package,
                       end
   end
 
+  def delete(repo, package, version) do
+    Expm.Repository.delete repo, package, version
+  end
+
+  def delete(repo, package) when is_binary(package) do
+    results = 
+    lc version inlist versions(repo, package) do
+      delete(repo, package, version)
+    end
+    Enum.all?(results, fn(result) -> result == :ok end) and :ok
+  end
+
+  def delete(repo, package) do
+    delete(repo, name(package), version(package))
+  end
+
   def read(file // "package.exs") do
     {:ok, bin} = File.read(file)
     {pkg, _} = Code.eval bin

@@ -37,6 +37,10 @@ defimpl Expm.Repository, for: Expm.Repository.Mirror do
   def put(repo, spec) do
     Expm.Repository.put repo.destination, spec
   end
+
+  def delete(repo, package, version) do
+    Expm.Repository.delete repo.destination, package, version
+  end
   
   def list(repo, filter) do
     Expm.Repository.list repo.destination, filter

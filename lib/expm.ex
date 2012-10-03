@@ -46,7 +46,8 @@ defmodule Expm do
     {opts, commands} = OptionParser.parse(argv, 
                        aliases: [
                                  r: :repository, 
-                                ])
+                                ],
+                       flags: [:all])
     opts = Keyword.merge Expm.UserConfig.read, opts        
     Expm.CLI.new(opts).run(commands)
   end

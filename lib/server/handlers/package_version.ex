@@ -1,8 +1,10 @@
 defmodule Expm.Server.Http.PackageVersion do
   use Expm.Server.Http
 
+  defdelegate [is_authorized(req, state)], to: Expm.Server.Http.Package
+
   def allowed_methods(req, state) do
-    {["GET"], req, state}
+    {["GET","DELETE"], req, state}
   end
 
   def resource_exists(req, State[repository: repository] = state) do
@@ -19,6 +21,10 @@ defmodule Expm.Server.Http.PackageVersion do
 
   def to_elixir(req, State[package: pkg] = state) do
     {pkg.encode, req, state}
+  end
+
+  def delete_resource(req, State[repository: repository, package: pkg] = state) do
+    {Expm.Package.delete(repository, pkg) == :ok, req, state}
   end
 
 end

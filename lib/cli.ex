@@ -17,7 +17,7 @@ defmodule Expm.CLI.Command do
   end
 end
 defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, password: nil,
-                    version: false, format: "asis", format_opts: [] do
+                    version: false, format: "asis", format_opts: [], all: false do
 
   use Expm.CLI.Command
 
@@ -181,6 +181,47 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
     res = pkg.publish(repo(rec))
     case res do
       Expm.Package[] = _pkg -> IO.puts "done"
+      other -> IO.inspect other
+    end
+  end
+
+
+  @shortdoc "Unpublish a package"
+  @doc """
+  $ expm unpublish [--all]
+ 
+  Unpublishes package.exs from the repository
+ 
+  If --all flag is supplied, then all versions will be unpublished.
+
+  #{repository_switch_doc}
+  #{auth_switch_doc}
+  """
+  command(["unpublish"], rec) do
+    run(["unpublish", "package.exs"], rec)
+  end
+
+  @shortdoc :skip
+  @doc """
+  $ expm unpublish [filename.exs] [--all]
+
+  Unpublishes filename.exs from the repository
+
+  If --all flag is supplied, then all versions will be unpublished.
+ 
+  #{repository_switch_doc}
+  #{auth_switch_doc}  
+  """
+  command(["unpublish", file], rec) do
+    pkg = Expm.Package.read(file)
+    IO.write "Unpublishing #{pkg.name} "
+    res =
+    case all(rec) do
+      true -> IO.write("(all versions)... ") ; Expm.Package.delete(repo(rec), pkg.name)
+      false -> IO.write("(#{pkg.version})... ") ; Expm.Package.delete(repo(rec), pkg)
+    end
+    case res do
+      :ok -> IO.puts "done"
       other -> IO.inspect other
     end
   end

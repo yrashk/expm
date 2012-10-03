@@ -1,4 +1,6 @@
-defrecord Expm.Repository.Auth, username: nil, auth_token: nil, repository: nil
+defrecord Expm.Repository.Auth, username: nil, auth_token: nil, repository: nil do
+  def published_by(repo), do: {repo.username, repo.auth_token}
+end
 
 defimpl Expm.Repository, for: Expm.Repository.Auth do
 
@@ -11,27 +13,40 @@ defimpl Expm.Repository, for: Expm.Repository.Auth do
   end
 
   def put(repo, spec) do
-    if nil?(repo.username) or nil?(repo.auth_token) or
-       repo.username == "" or repo.auth_token == "" do
+    unless authorized?(repo, spec.name) do
       {:error, :access_denied}    
     else
-      pkgs = Expm.Repository.list(repo.repository, Expm.Package[name: spec.name, _: :_])
-      published_by = {repo.username, repo.auth_token}
-      if Enum.all?(pkgs, fn(pkg) -> pkg.metadata[:published_by] == published_by or
-                                    nil?(pkg.metadata[:published_by]) or
-                                    not is_tuple(pkg.metadata[:published_by])
-                         end) do
-        spec = Expm.Repository.put repo.repository, 
-                                   spec.metadata(Keyword.put spec.metadata, :published_by, published_by)
-        strip_auth_token(spec)                                 
-      else
-        {:error, :access_denied}
-      end
+      spec = Expm.Repository.put repo.repository, 
+                                 spec.metadata(Keyword.put spec.metadata, 
+                                 :published_by, Expm.Repository.Auth.published_by(repo))
+      strip_auth_token(spec)                                 
+    end
+  end
+
+  def delete(repo, package, version) do
+    unless authorized?(repo, package) do
+      {:error, :access_denied}    
+    else
+      Expm.Repository.delete repo.repository, package, version
     end
   end
   
   def list(repo, filter) do
     lc spec inlist Expm.Repository.list(repo.repository, filter), do: strip_auth_token(spec)
+  end
+
+  defp authorized?(repo, package) do
+    if nil?(repo.username) or nil?(repo.auth_token) or
+       repo.username == "" or repo.auth_token == "" do
+      false
+    else
+      pkgs = Expm.Repository.list(repo.repository, Expm.Package[name: package, _: :_])
+      published_by = Expm.Repository.Auth.published_by(repo)
+      Enum.all?(pkgs, fn(pkg) -> pkg.metadata[:published_by] == published_by or
+                                    nil?(pkg.metadata[:published_by]) or
+                                    not is_tuple(pkg.metadata[:published_by])
+                      end)
+    end  
   end
 
   defp strip_auth_token(:not_found), do: :not_found

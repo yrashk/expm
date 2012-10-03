@@ -29,6 +29,11 @@ defimpl Expm.Repository, for: Expm.Repository.ETS do
     ETS.insert(repo.tid, {{spec.name, spec.version}, spec})
     spec
   end
+
+  def delete(repo, package, version) do
+    ETS.delete(repo.table, {package, version})
+    :ok
+  end    
   
   def list(repo, filter) do
     lc {_key, spec} inlist ETS.match_object(repo.tid, {:_, filter}), do: spec

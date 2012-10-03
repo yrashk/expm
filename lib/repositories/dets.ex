@@ -32,6 +32,10 @@ defimpl Expm.Repository, for: Expm.Repository.DETS do
     DETS.insert(repo.table, {{spec.name, spec.version}, spec})
     spec
   end
+
+  def delete(repo, package, version) do
+    DETS.delete(repo.table, {package, version})
+  end  
   
   def list(repo, filter) do
     lc {_key, spec} inlist DETS.match_object(repo.table, {:_, filter}), do: spec

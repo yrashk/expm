@@ -89,7 +89,8 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
                                  when nil?(username) or
                                       nil?(password) do
       {:error, :authentication_required}                                                        
-  end                                                      
+  end      
+
   def put(repo, spec) do
     {:ok, code, _headers, client} = 
       H.request("PUT", "#{repo.url}/#{spec.name}",
@@ -104,6 +105,23 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
       200 ->
         Expm.Package.decode body
       _ -> :error
+    end
+  end
+
+  def delete(repo, package, version) do
+    {:ok, code, _headers, client} = 
+      H.request("DELETE", "#{repo.url}/#{package}/#{version}",
+                [{"authorization",%b{Basic #{:base64.encode("#{repo.username}:#{repo.password}")}}},
+                 {"content-type","application/elixir"},
+                 {"accept", "application/elixir"}                 
+                 ],
+                "", [follow_redirect: true])
+    {:ok, body, client} = H.body(client)
+    H.close(client)
+    case code do
+      code in [200,204] ->
+        :ok
+      _ -> {:error, code, body}
     end
   end
   

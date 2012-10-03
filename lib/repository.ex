@@ -12,6 +12,9 @@ defprotocol Expm.Repository do
   @spec put(t, Expm.Package.spec), do: :ok
   def put(repo, spec)
 
+  @spec delete(t, Expm.Package.name, Expm.Package.version), do: :ok | {:error, atom}
+  def delete(repo, package, version)
+
   @spec list(t, Expm.Package.filter), do: list(Expm.Package.spec)
   def list(repo, filter)
 end
