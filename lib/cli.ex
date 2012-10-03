@@ -177,7 +177,12 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
   """
   command(["publish", file], rec) do
     pkg = Expm.Package.read(file)
-    IO.inspect pkg.publish(repo(rec))
+    IO.write "Publishing... "
+    res = pkg.publish(repo(rec))
+    case res do
+      Expm.Package[] = _pkg -> IO.puts "done"
+      other -> IO.inspect other
+    end
   end
 
   @shortdoc "Create new package"
