@@ -76,8 +76,9 @@ defmodule Expm.Server.Http do
   defp page_assigns(req, _state) do
     {host, req} = Req.host(req)
     {port, req} = Req.port(req)
+    {path, req} = Req.path(req)
     motd_file = File.join [File.dirname(__FILE__), "..", "priv", "motd"]
-    if File.exists?(motd_file) do
+    if File.exists?(motd_file) and path == "/" do
       {:ok, motd} = File.read(motd_file)
     else
       motd = ""
