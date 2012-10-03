@@ -37,7 +37,7 @@
 <pre><%= Expm.Package.Format.SCM.to_binary(Expm.Package.Format.SCM.format(package, [])) %></pre>
 
 <a name="mix"><h4 id="package">package.exs:</h4></a>
-<pre class="b64"><%= :base64.encode(inspect package) %></pre>
+<pre>expm spec <%= package.name %> <%= package.version %></pre>
 
 <script type="text/javascript">
  var expmPackageName = "<%= package.name %>";
