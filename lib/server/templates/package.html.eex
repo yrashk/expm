@@ -26,8 +26,6 @@
 <% end %>
 </tbody>
 </table>
-<a name="mix"><h4 id="package">package.exs:</h4></a>
-<pre><%= inspect package %></pre>
 
 <a name="mix"><h4 id="mix">Mix:</h4></a>
 <pre><%= Expm.Package.Format.Mix.to_binary(Expm.Package.Format.Mix.format(package, [])) %></pre>
@@ -37,6 +35,9 @@
 
 <a name="mix"><h4 id="scm">SCM:</h4></a>
 <pre><%= Expm.Package.Format.SCM.to_binary(Expm.Package.Format.SCM.format(package, [])) %></pre>
+
+<a name="mix"><h4 id="package">package.exs:</h4></a>
+<pre><%= inspect package %></pre>
 
 <script type="text/javascript">
  var expmPackageName = "<%= package.name %>";
