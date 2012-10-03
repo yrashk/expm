@@ -1,5 +1,30 @@
-defrecord Expm.Repository.Auth, username: nil, auth_token: nil, repository: nil do
+defrecord Expm.Repository.Auth, username: nil, auth_token: nil, repository: nil,
+                                cmp: nil, transform: nil do
+
+  defoverridable new: 1
+
+  def new(opts) do
+    rec = super(opts)                                
+    rec = rec.cmp(function(__MODULE__, :bcrypt_cmp, 2))
+    rec.transform(function(__MODULE__, :bcrypt_transform, 1))
+  end
+
   def published_by(repo), do: {repo.username, repo.auth_token}
+
+  def bcrypt_cmp({k, {:bcrypt, h}}, {k, v2}) do
+    :erlpass.match(v2, h)
+  end
+  def bcrypt_cmp({_, {:bcrypt, _}}, {_, _}), do: false
+  def bcrypt_cmp({k, v1}, {k, v2}) do
+   v2 = :crypto.hash(:sha256, v2)
+   v1 == v2
+  end
+  def bcrypt_cmp(_, _), do: false
+
+  def bcrypt_transform({k, v}) do
+    {k, {:bcrypt, :erlpass.hash(v)}}
+  end
+
 end
 
 defimpl Expm.Repository, for: Expm.Repository.Auth do
@@ -18,7 +43,7 @@ defimpl Expm.Repository, for: Expm.Repository.Auth do
     else
       spec = Expm.Repository.put repo.repository, 
                                  spec.metadata(Keyword.put spec.metadata, 
-                                 :published_by, Expm.Repository.Auth.published_by(repo))
+                                 :published_by, repo.transform.(Expm.Repository.Auth.published_by(repo)))
       strip_auth_token(spec)                                 
     end
   end
@@ -42,7 +67,8 @@ defimpl Expm.Repository, for: Expm.Repository.Auth do
     else
       pkgs = Expm.Repository.list(repo.repository, Expm.Package[name: package, _: :_])
       published_by = Expm.Repository.Auth.published_by(repo)
-      Enum.all?(pkgs, fn(pkg) -> pkg.metadata[:published_by] == published_by or
+      pkgs == [] or   Enum.any?(pkgs, fn(pkg) ->    
+                                    repo.cmp.(pkg.metadata[:published_by], published_by) or
                                     nil?(pkg.metadata[:published_by]) or
                                     not is_tuple(pkg.metadata[:published_by])
                       end)

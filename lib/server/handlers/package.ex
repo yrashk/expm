@@ -11,9 +11,6 @@ defmodule Expm.Server.Http.Package do
           _ ->
               ["Basic", auth] = String.split(auth, " ")
               [username, auth] = String.split(:base64.decode(auth), ":")
-              # I know this isn't strong enough, but it generates predictable auth tokens
-              # (which is what Auth currently needs)
-              auth = :crypto.hash(:sha256, auth) 
               repository = Expm.Repository.Auth.new username: username, 
                                                     auth_token: auth, 
                                                     repository: state.opts[:repository]

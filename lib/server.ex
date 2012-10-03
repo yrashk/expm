@@ -4,6 +4,7 @@ defmodule Expm.Server do
   alias :cowboy, as: Cowboy
 
   def start(_, _) do
+   Application.start(:bcrypt) # because we don't want to start it in the CLI
    env = Application.environment(:expm)
    repo = env[:repository] || quote do: Expm.Repository.DETS.new(filename: "expm.dat")
    static_dir = File.join [File.dirname(:code.which(__MODULE__)), "..", "priv", "static"]

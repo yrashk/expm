@@ -11,7 +11,7 @@ defmodule Expm.Mixfile do
 
   # Configuration for the OTP application
   def application do
-      [applications: [:lager, :lagerex, :hackney, :ranch, :cowboy, :genx, :crypto, :exreloader],
+      [applications: [:lager, :lagerex, :hackney, :ranch, :cowboy, :genx, :crypto, :exreloader, :erlpass],
        mod: {Expm, []}]
   end
 
@@ -25,7 +25,10 @@ defmodule Expm.Mixfile do
       {:ranch, %r(.*), github: "extend/ranch"},
       {:cowboy, %r(.*), github: "extend/cowboy"},
       {:lagerex, %r(.*), github: "yrashk/lagerex"},
-      {:exreloader, %r(.*), github: "yrashk/exreloader"}
+      {:exreloader, %r(.*), github: "yrashk/exreloader"},
+      {:erlpass, %r(.*), github: "ferd/erlpass", compile: "rebar compile deps_dir=.."},
+        {:proper, %r(.*),github: "manopapad/proper"},
+        {:bcrypt, %r(.*), github: "spawngrid/erlang-bcrypt"},
     ]
   end
 end
