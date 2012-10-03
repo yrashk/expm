@@ -81,12 +81,19 @@ defmodule Expm.Server.Templates.Package do
     |, [:dependencies]
 
   def maintainers(maintainers), do: people(maintainers)
-  def contributors(contributors), do: people(contributors)
+  def contributors(contributors), do: people_without_email(contributors)
 
   EEx.function_from_string :defp, :people,
     %b{
       <%= lc person inlist people do %>
         <span class="label label-success"><%= person[:name] %> &lt;<span class="b64"><%= :base64.encode(person[:email]) %></span>&gt;</span>
+      <% end %>
+    }, [:people]
+
+  EEx.function_from_string :defp, :people_without_email,
+    %b{
+      <%= lc person inlist people do %>
+        <span class="label label-success"><%= person[:name] %></span>
       <% end %>
     }, [:people]
 
