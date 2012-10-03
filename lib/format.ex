@@ -31,6 +31,7 @@ defmodule Expm.Package.Format.Rebar do
      cond do
       r[:branch] -> {:branch, to_char_list(r[:branch])}
       r[:tag] -> {:tag, to_char_list(r[:tag])}
+      true -> {:branch, "master"}
      end  
   end
 
