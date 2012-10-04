@@ -8,7 +8,7 @@ defrecord Expm.Repository.HTTP, url: "https://expm.co", username: nil, password:
                  {"content-type","text/html"},
                  {"accept", "text/html"}                 
                 ],
-                "", [follow_redirect: true])
+                "", [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
     H.close(client)
     body
@@ -57,7 +57,7 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
                  {"content-type","application/elixir"},
                  {"accept", "application/elixir"}                 
                 ],
-                "", [follow_redirect: true])
+                "", [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
     H.close(client)
     case code do
@@ -74,7 +74,7 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
                  {"content-type","application/elixir"},
                  {"accept", "application/elixir"}
                 ],
-                "", [follow_redirect: true])
+                "", [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
     H.close(client)
     case code do
@@ -98,7 +98,7 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
                  {"content-type","application/elixir"},
                  {"accept", "application/elixir"}                 
                  ],
-                spec.encode, [follow_redirect: true])
+                spec.encode, [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
     H.close(client)
     case code do
@@ -115,7 +115,7 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
                  {"content-type","application/elixir"},
                  {"accept", "application/elixir"}                 
                  ],
-                "", [follow_redirect: true])
+                "", [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
     H.close(client)
     case code do
@@ -132,7 +132,7 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
                  {"content-type","application/elixir"},
                  {"accept", "application/elixir"}                 
                  ],
-                filter.encode, [follow_redirect: true])
+                filter.encode, [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
     H.close(client)
     case code do 
