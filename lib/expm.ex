@@ -42,6 +42,7 @@ defmodule Expm do
   end
 
   def main(argv) do
+    :ok = Application.start :ssl
     argv = lc arg inlist argv, do: to_binary(arg)
     {opts, commands} = OptionParser.parse(argv, 
                        aliases: [

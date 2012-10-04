@@ -1,4 +1,4 @@
-defrecord Expm.Repository.HTTP, url: "http://expm.co", username: nil, password: nil do
+defrecord Expm.Repository.HTTP, url: "https://expm.co", username: nil, password: nil do
   alias :hackney, as: H
 
   def version(repo) do

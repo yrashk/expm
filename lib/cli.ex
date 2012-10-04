@@ -26,7 +26,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
 
     --repository URL (-r URL)
 
-  By default, this is [http://expm.co/](http://expm.co/)
+  By default, this is [https://expm.co/](https://expm.co/)
   """
   auth_switch_doc = """
     --username USER and --password PASSWORD
