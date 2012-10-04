@@ -119,7 +119,7 @@ defrecord Expm.Package,
     lc version inlist versions(repo, package) do
       delete(repo, package, version)
     end
-    Enum.all?(results, fn(result) -> result == :ok end) and :ok
+    Enum.find(results, :ok, fn(x) -> x != :ok end)
   end
 
   def delete(repo, package) do
