@@ -31,7 +31,7 @@ defimpl Expm.Repository, for: Expm.Repository.ETS do
   end
 
   def delete(repo, package, version) do
-    ETS.delete(repo.table, {package, version})
+    ETS.delete(repo.tid, {package, version})
     :ok
   end    
   
