@@ -1,7 +1,7 @@
 defmodule Expm.Package.Format.Mix do
   def format(pkg, options) do
     {options[:app] || binary_to_atom(pkg.name),
-     options[:vsn] || %r(.*),
+     (if is_binary(pkg.version), do: pkg.version, else: options[:vsn] || %r(.*)),
      hd(pkg.repositories)
     }
   end
@@ -13,7 +13,7 @@ defmodule Expm.Package.Format.Rebar do
   def format(pkg, options) do
     r = hd(pkg.repositories)
     {options[:app] || binary_to_atom(pkg.name),
-     options[:vsn] || '.*',
+     (if is_binary(pkg.version), do: to_char_list(pkg.version), else: options[:vsn] || '.*'),     
      repo(r)
     }
   end
