@@ -15,7 +15,10 @@ defmodule Expm.Server.Http.PackageVersion do
   end
 
   def to_html(req, State[repository: repository, package: pkg] = state) do
-    out = Expm.Server.Http.render_page(Expm.Server.Templates.package(pkg, repository), req, state)
+    tpl = Expm.Server.Templates.package(pkg, repository)
+    out = Expm.Server.Http.render_page(tpl, req, state,
+                                       title: "#{pkg.name} (#{pkg.version})", 
+                                       subtitle: pkg.description)
     {out, req, state}
   end
 
