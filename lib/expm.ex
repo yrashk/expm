@@ -20,11 +20,9 @@ defmodule Expm do
     end
   end
 
+  @version Mix.project[:version]
   def version do
-    appfile = File.join(File.dirname(:code.which(__MODULE__)),"expm.app")
-    {:ok, [{:application, :expm, app}]} = :file.consult(appfile)
-    vsn = :proplists.get_value(:vsn, app)
-    to_binary vsn    
+    @version
   end
 
   use Application.Behaviour
