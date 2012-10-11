@@ -6,7 +6,8 @@ defrecord Expm.Repository.HTTP, url: "https://expm.co", username: nil, password:
       H.request("GET", "#{repo.url}/__version__",
                 [
                  {"content-type","text/html"},
-                 {"accept", "text/html"}                 
+                 {"accept", "text/html"},
+                 {"user-agent", "expm/#{Expm.version}"},                 
                 ],
                 "", [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
@@ -55,7 +56,8 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
       H.request("GET", "#{repo.url}/#{to_binary(package)}/#{to_binary(version)}",
                 [
                  {"content-type","application/elixir"},
-                 {"accept", "application/elixir"}                 
+                 {"accept", "application/elixir"},
+                 {"user-agent", "expm/#{Expm.version}"},
                 ],
                 "", [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
@@ -72,7 +74,8 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
       H.request("GET", "#{repo.url}/#{package}",
                 [
                  {"content-type","application/elixir"},
-                 {"accept", "application/elixir"}
+                 {"accept", "application/elixir"},
+                 {"user-agent", "expm/#{Expm.version}"},
                 ],
                 "", [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
@@ -96,7 +99,8 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
       H.request("PUT", "#{repo.url}/#{spec.name}",
                 [{"authorization",%b{Basic #{:base64.encode("#{repo.username}:#{repo.password}")}}},
                  {"content-type","application/elixir"},
-                 {"accept", "application/elixir"}                 
+                 {"accept", "application/elixir"},
+                 {"user-agent", "expm/#{Expm.version}"},              
                  ],
                 spec.encode, [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
@@ -113,7 +117,8 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
       H.request("DELETE", "#{repo.url}/#{package}/#{version}",
                 [{"authorization",%b{Basic #{:base64.encode("#{repo.username}:#{repo.password}")}}},
                  {"content-type","application/elixir"},
-                 {"accept", "application/elixir"}                 
+                 {"accept", "application/elixir"},
+                 {"user-agent", "expm/#{Expm.version}"},          
                  ],
                 "", [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
@@ -130,7 +135,8 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
       H.request("PUT", "#{repo.url}",
                 [
                  {"content-type","application/elixir"},
-                 {"accept", "application/elixir"}                 
+                 {"accept", "application/elixir"},
+                 {"user-agent", "expm/#{Expm.version}"},         
                  ],
                 filter.encode, [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
