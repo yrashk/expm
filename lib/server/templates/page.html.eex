@@ -52,7 +52,7 @@
         </div>
         <div class="row">
           <center><small>Running expm <%= Expm.version %> (<a href="/__download__/expm">download</a>) on Elixir 
-          <%= System.version %> (<%= {_, sha, _} = System.build_info ; sha %>)
+          <%= System.version %> (<%= System.build_info[:tag] %>)
           </small></center>
         </div>
       </div>
