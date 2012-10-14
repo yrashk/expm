@@ -21,18 +21,18 @@ defmodule Expm.Mixfile do
 
   defp deps do
     [
-      {:validatex, %r(.*), github: "yrashk/validatex"},
-      {:hackney, %r(.*), github: "benoitc/hackney"},
-      {:mimetypes, %r(.*), github: "spawngrid/mimetypes"},
-      {:edown, %r(.*), github: "esl/edown"},
-      {:genx, %r(.*), github: "yrashk/genx"},
-      {:ranch, %r(.*), github: "extend/ranch"},
-      {:cowboy, %r(.*), github: "extend/cowboy"},
-      {:lagerex, %r(.*), github: "yrashk/lagerex"},
-      {:exreloader, %r(.*), github: "yrashk/exreloader"},
-      {:erlpass, %r(.*), github: "yrashk/erlpass", branch: "patch-1", compile: "rebar compile deps_dir=.."},
-        {:proper, %r(.*),github: "manopapad/proper"},
-        {:bcrypt, %r(.*), github: "spawngrid/erlang-bcrypt"},
+      {:validatex, github: "yrashk/validatex"},
+      {:hackney, github: "benoitc/hackney"},
+        {:edown, github: "esl/edown"},
+      {:genx, github: "yrashk/genx"},
+      {:cowboy, github: "extend/cowboy"},
+        {:ranch, github: "extend/ranch"},
+      {:mimetypes, github: "spawngrid/mimetypes"},
+      {:lagerex, github: "yrashk/lagerex"},
+      {:exreloader, github: "yrashk/exreloader"},
+      {:erlpass, github: "yrashk/erlpass", branch: "patch-1", compile: "rebar compile deps_dir=.."},
+        {:proper, github: "manopapad/proper"},
+        {:bcrypt, github: "spawngrid/erlang-bcrypt"},
       {:relex, github: "yrashk/relex"},
     ]
   end
