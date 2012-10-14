@@ -30,7 +30,7 @@ defmodule Expm.Mixfile do
       {:mimetypes, github: "spawngrid/mimetypes"},
       {:lagerex, github: "yrashk/lagerex"},
       {:exreloader, github: "yrashk/exreloader"},
-      {:erlpass, github: "yrashk/erlpass", branch: "patch-1", compile: "rebar compile deps_dir=.."},
+      {:erlpass, github: "ferd/erlpass", compile: "rebar compile deps_dir=.."},
         {:proper, github: "manopapad/proper"},
         {:bcrypt, github: "spawngrid/erlang-bcrypt"},
       {:relex, github: "yrashk/relex"},
