@@ -318,6 +318,16 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
     end
   end
 
+  @shortdoc "Version"
+  @doc """
+  $ expm version
+
+  Prints expm version
+  """
+  command(["version"], _rec) do
+    IO.puts Expm.version
+  end
+
   def run(_, rec) do
     run(["help"], rec)
   end
