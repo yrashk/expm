@@ -8,6 +8,8 @@ Defining a package
 
 Every expm package is defined using `Expm.Package` record (look at the [example](https://github.com/yrashk/expm/blob/master/package.exs))
 
+You can use `expm new [package.exs]` command to generate one from a template.
+
 Normally you put this definition into `package.exs`. However, if you're intending to publish named versions as well (such as `:head`), our suggestion is to put such package definitions into `package.NAME.exs` (like [here](https://github.com/yrashk/expm/blob/master/package.head.exs))
 
 Authorization
