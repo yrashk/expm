@@ -9,3 +9,4 @@ sys.config.exs
 /expm.dat
 /priv/static/expm
 .erlang.cookie
+/rel

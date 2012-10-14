@@ -1,7 +1,7 @@
 [ "bcrypt": "1f1b4114f8b96184d2fb860e7d3121aed341c3b4",
   "cowboy": "0b82eebed654bd894802acb52697a4d4187cb228",
   "edown": "35f8296a25d14c5c1e3209399a2c1856700d9d5b",
-  "erlpass": "ed9b5fa4dcbd81a3e580b0723cfb9eb4709bc817",
+  "erlpass": "9df3643db39b5acad44643ddbcabb090437c8519",
   "exreloader": "82e1bd157b75ed4a362f128d9d24646f36a586ba",
   "genx": "da972d408887c137a538430f0f5b65c1ff2bbf69",
   "hackney": "896fc24e8efb4a5a6966cae13e749ab7cf1f73e2",
@@ -10,4 +10,5 @@
   "mimetypes": "e9dfab5aec98963589ecf13bdfcf0490667a730d",
   "proper": "8f09ee5252f595f32f9a8fd45b8e530b1a3fdfeb",
   "ranch": "cd099983b1b807b87fa050d1e4ff0a13aba25b49",
+  "relex": "bc81331fd056bb224906c6054ada1fc2b7ba966c",
   "validatex": "f6e1d934647388f297132edcf80bcf7036b5eb09" ]
