@@ -17,6 +17,16 @@ Current expm's implementation of security is a little bit funny. There's no need
 
 Simply use `username` and `password` options when claiming new package and this username and password combination will be attached to your package on the server. No one without your username and password can update the package.
 
+You can also store your credentials in your user's config ($HOME/.expm.config):
+
+```
+$ expm config:set username johndoe
+$ expm config:set password myawesomepassword
+```
+
+This way you don't have to specify --username and --password options every time you
+publish a package.
+
 At this moment it is not possible to delegate the package maintainership to somebody else, but it will not be that way forever.
 
 ### Security considerations
