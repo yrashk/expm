@@ -19,7 +19,7 @@
 <%= lc {field, value} inlist package.to_keywords do %>
    <tr>
      <td><b><%= to_binary field %></b></td>
-     <td><%= Expm.Server.Templates.Package.render(field,value) %></td>
+     <td><%= Expm.Server.Templates.Package.render(repo, field,value) %></td>
    </tr>
 <% end %>
 </tbody>

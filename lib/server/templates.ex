@@ -4,14 +4,14 @@ defmodule Expm.Server.Templates.Package do
   EEx.function_from_string :def, :description,
     %b{
       <%= description %>
-    }, [:description]
+    }, [:description, :_assigns]
 
   EEx.function_from_string :def, :directories,
     %b{
       <%= lc dir inlist directories do %>
         <span class="label"><%= dir %></span>
       <% end %>
-    }, [:directories]
+    }, [:directories, :_assigns]
 
   EEx.function_from_string :def, :homepage,
     %b{
@@ -19,26 +19,26 @@ defmodule Expm.Server.Templates.Package do
       <% else %>
         <a href="<%= homepage %>"><%= homepage %></a>
       <% end %>
-    }, [:homepage]
+    }, [:homepage, :_assigns]
 
   EEx.function_from_string :def, :keywords,
     %b{
       <%= lc keyword inlist keywords do %>
         <span class="label label-info"><%= keyword %></span>
       <% end %>
-    }, [:keywords]
+    }, [:keywords, :_assigns]
 
   EEx.function_from_string :def, :metadata,
     %b{
       <%= lc \{tag, value \} inlist metadata do %>
         <span class="label label-info"><%= tag %>:</span> <%= inspect value %>
       <% end %>
-    }, [:metadata]
+    }, [:metadata, :_assigns]
 
   EEx.function_from_string :def, :name,
     %b{
       <strong><%= name %></strong>
-    }, [:name]
+    }, [:name, :_assigns]
 
   EEx.function_from_string :def, :repositories,
     %b{
@@ -60,49 +60,46 @@ defmodule Expm.Server.Templates.Package do
           <a href="<%= repository[:url] %>"><%= repository[:url] %></a>
         <% end %>
       <% end %>
-    }, [:repositories]
+    }, [:repositories, :_assigns]
 
 
   EEx.function_from_string :def, :version,
     %b{
       <%= version %>
-    }, [:version]
+    }, [:version, :_assigns]
 
   EEx.function_from_string :def, :dependencies,
     %b|
       <%= lc dependency inlist dependencies do %>
-        <%= if is_binary(dependency) do %>
-          <a href="/<%= dependency %>" class="btn btn-mini btn-info"><%= dependency %></a>
-        <% end %>
-        <%= if match?({name, version}, dependency) do %>
-          <a href="/<%= name %>/<%= version %>" class="btn btn-mini btn-info"><%= name %> (<em><%= version %></em>)</a>
-        <% end %>        
+        <% [{name, actual_version}] = Expm.Package.deps(@repo, Expm.Package.new(dependencies: [dependency])) %>
+        <% if is_binary(dependency), do: version = "topmost", else: {_, version} = dependency %>
+        <a href="/<%= name %>/<%= actual_version %>" class="btn btn-mini btn-info"><%= name %> (<em><%= Expm.Package.inspect_version(version) %></em>)</a>
       <% end %>
-    |, [:dependencies]
+    |, [:dependencies, :assigns]
 
   EEx.function_from_string :def, :licenses,
     %b{
       <%= lc license inlist licenses do %>
         <span class="label label-success"><%= license[:name] %></span>
       <% end %>
-    }, [:licenses]
+    }, [:licenses, :_assigns]
 
-  def maintainers(maintainers), do: people(maintainers)
-  def contributors(contributors), do: people_without_email(contributors)
+  def maintainers(maintainers, assigns), do: people(maintainers, assigns)
+  def contributors(contributors, assigns), do: people_without_email(contributors, assigns)
 
   EEx.function_from_string :defp, :people,
     %b{
       <%= lc person inlist people do %>
         <span class="label label-success"><%= person[:name] %> &lt;<span class="b64"><%= :base64.encode(person[:email]) %></span>&gt;</span>
       <% end %>
-    }, [:people]
+    }, [:people, :_assigns]
 
   EEx.function_from_string :defp, :people_without_email,
     %b{
       <%= lc person inlist people do %>
         <span class="label label-success"><%= person[:name] %></span>
       <% end %>
-    }, [:people]
+    }, [:people, :_assigns]
 
   defp github_url(repository) do
     "https://github.com/#{repository[:github]}" <>
@@ -115,9 +112,9 @@ defmodule Expm.Server.Templates.Package do
      end
   end
 
-  def render(field, value) do
-    if function_exported?(__MODULE__, field, 1) do
-      apply(__MODULE__, field, [value])
+  def render(repo, field, value) do
+    if function_exported?(__MODULE__, field, 2) do
+      apply(__MODULE__, field, [value, repo: repo])
     else
       inspect value
     end

@@ -182,4 +182,11 @@ defrecord Expm.Package,
       raise Expm.Package.VersionNotFound, version: version
     end  
   end
+
+  def inspect_version(version) when is_binary(version), do: version
+  def inspect_version(version) when is_atom(version), do: to_binary(version)
+  def inspect_version([>: v]), do: "> #{inspect_version(v)}"
+  def inspect_version([>=: v]), do: ">= #{inspect_version(v)}"
+  def inspect_version([<: v]), do: "< #{inspect_version(v)}"
+  def inspect_version([<=: v]), do: "<= #{inspect_version(v)}"
 end
