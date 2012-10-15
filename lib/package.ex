@@ -140,7 +140,7 @@ defrecord Expm.Package,
   defdelegate [valid?(package), validate(package)], to: Expm.Package.Validator
 
   def deps(repo, rec) do
-    lc dep inlist dependencies(rec), do: resolve_dep(repo, dep)
+    Keyword.from_enum(lc dep inlist dependencies(rec), do: resolve_dep(repo, dep))
   end
 
   defp resolve_dep(repo, name) when is_binary(name) do
