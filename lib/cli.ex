@@ -153,6 +153,31 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
     end
   end
 
+  @shortdoc "Package dependencies"
+  @doc """
+  $ expm deps package [VERSION]
+
+  Prints out a list of packages with their most matching versions, space delimited
+  """
+  command(["deps", package], rec) do
+    repo = repo(rec)
+    pkg = Expm.Package.fetch repo, package
+    lc {dep, version} inlist Expm.Package.deps(repo, pkg) do
+     IO.puts "#{dep} #{version}"
+    end
+    rescue Expm.Package.VersionNotFound[]=e ->
+      IO.puts e.message
+  end
+  def run(["deps", package, version], rec) do
+    repo = repo(rec)
+    pkg = Expm.Package.fetch repo, package, version
+    lc {dep, version} inlist Expm.Package.deps(repo, pkg) do
+     IO.puts "#{dep} #{version}"
+    end
+    rescue Expm.Package.VersionNotFound[]=e ->
+      IO.puts e.message    
+  end
+
   @shortdoc "Publish a package"
   @doc """
   $ expm publish

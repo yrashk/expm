@@ -1,3 +1,8 @@
+defexception Expm.Package.VersionNotFound, version: nil do
+  def message(e) do
+    "Version #{inspect e.version} not found"
+  end
+end
 defrecord Expm.Package, 
   metadata: [],
   # required
@@ -134,4 +139,47 @@ defrecord Expm.Package,
 
   defdelegate [valid?(package), validate(package)], to: Expm.Package.Validator
 
+  def deps(repo, rec) do
+    lc dep inlist dependencies(rec), do: resolve_dep(repo, dep)
+  end
+
+  defp resolve_dep(repo, name) when is_binary(name) do
+    [version|_] = Enum.reverse(versions(repo, name))
+    {name, version}
+  end
+
+  defp resolve_dep(_repo, {name, version}) when is_binary(name) and 
+                                                (is_binary(version) or is_atom(version)) do
+    {name, version}
+  end
+
+  defp resolve_dep(repo, {name, [>: version] = v}) when is_binary(name) and 
+                                                   (is_binary(version) or is_atom(version)) do
+    resolve_dep_impl(repo, name, v, fn(v) -> v > version end)
+  end
+
+  defp resolve_dep(repo, {name, [>=: version] = v}) when is_binary(name) and 
+                                                    (is_binary(version) or is_atom(version)) do
+    resolve_dep_impl(repo, name, v, fn(v) -> v >= version end)
+  end
+
+  defp resolve_dep(repo, {name, [<: version] = v}) when is_binary(name) and 
+                                                    (is_binary(version) or is_atom(version)) do
+    resolve_dep_impl(repo, name, v, fn(v) -> v < version end)
+  end
+
+  defp resolve_dep(repo, {name, [<=: version] = v}) when is_binary(name) and 
+                                                    (is_binary(version) or is_atom(version)) do
+    resolve_dep_impl(repo, name, v, fn(v) -> v <= version end)
+  end
+
+  defp resolve_dep_impl(repo, name, version, fun) do
+    versions = Enum.reverse(versions(repo, name))
+    found = Enum.find(versions, fun)
+    unless nil?(found) do
+      {name, found}
+    else
+      raise Expm.Package.VersionNotFound, version: version
+    end  
+  end
 end
