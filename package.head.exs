@@ -6,4 +6,7 @@ Expm.Package.new(name: "expm", description: "Elixir package manager",
                                 "mimetypes",
                                 "genx",
                                 "exreloader",
-                                "hackney"])
+                                "hackney",
+                                {"cowboy", :head},
+                                {"relex", :head},
+                                ])
