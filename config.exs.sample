@@ -1,0 +1,7 @@
+Expm.Config.config do
+  config.repository quote do: Expm.Repository.DETS.new(filename: "expm.dat")
+  # config.http_port 8080
+  # config.site_title ""
+  # config.site_subtitle ""
+  # config.log_dir "/path/to/logdir"
+end

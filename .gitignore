@@ -10,3 +10,4 @@ sys.config.exs
 /priv/static/expm
 .erlang.cookie
 /rel
+/config.exs
