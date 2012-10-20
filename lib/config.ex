@@ -5,6 +5,7 @@ defmodule Expm.Config do
   defproperty site_title, default: "Elixir Packages"
   defproperty site_subtitle, default: %b{<small>A repository for publishing <a href="http://elixir-lang.org">Elixir</a> & <a href="http://erlang.org">Erlang</a> packages</small>}
   defproperty repository  
+  defproperty package_footer
 
   defproperty log_dir, default: "log"
 
@@ -15,7 +16,8 @@ defmodule Expm.Config do
        site_title: config.site_title,
        site_subtitle: config.site_subtitle,
        repository: config.repository,
-       http_port: config.http_port
+       http_port: config.http_port,
+       package_footer: config.package_footer
      ],
      lager:
        [handlers: [
