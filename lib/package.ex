@@ -137,6 +137,24 @@ defrecord Expm.Package,
     pkg
   end
 
+  def public_homepage(package) do
+    github_repo = Enum.find(repositories(package), fn(r) -> not nil?(r[:github]) end)
+    if nil?(github_repo) do
+      github_repo = Enum.find(repositories(package), fn(r) -> 
+                                Regex.match?(%r(.*github.com/.+), r[:git])
+                              end)
+      path = Regex.replace(%r{.*github.com/(.+)$},github_repo[:r],"\\1")
+      path = Regex.replace(%r{(.+)(\.git)$}, path, "\\1")
+      github_repo = Keyword.put github_repo, :github, path
+    end
+    cond do
+     not nil?(homepage(package)) ->
+       homepage(package)
+     not nil?(github_repo) ->
+       "https://github.com/#{github_repo[:github]}"
+    end
+  end
+
   defdelegate [valid?(package), validate(package)], to: Expm.Package.Validator
 
   def deps(repo, rec) do

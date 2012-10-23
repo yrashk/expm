@@ -3,7 +3,14 @@
  <tbody>
  <%= lc pkg inlist pkgs do %>
    <tr>
-   <td><a href="<%= pkg.name %>"><%= pkg.name %></a></td>
+   <td>
+   <%= if not nil?(pkg.public_homepage) do %>
+      <a href="<%= pkg.public_homepage %>"><i class="icon-home"></i></a>
+   <%= else %>
+      <a style="opacity: 0.5" class="disabled" href="#"><i class="icon-home"></i></a>      
+   <%  end %>
+   <a href="<%= pkg.name %>"><%= pkg.name %></a>      
+   </td>
    <td><%= pkg.description %></td>
    </tr>
  <% end %>
