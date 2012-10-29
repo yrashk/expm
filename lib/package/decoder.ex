@@ -6,7 +6,7 @@ defmodule Expm.Package.Decoder do
   def decode(list) when is_list(list) do
     lc i inlist list, do: decode(i)
   end  
-  def decode({:access,l1,[{:__aliases__,l2,[:Expm,:Package]}|rest]}) do
+  def decode({{:.,_,[Kernel,:access]},l1,[{:__aliases__,l2,[:Expm,:Package]}|rest]}) do
     {:access,l1,[{:__aliases__,l2,[:Expm,:Package]}|decode_1(rest)]}
   end
   def decode(v) do

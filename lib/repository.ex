@@ -1,6 +1,5 @@
 defprotocol Expm.Repository do
   @only [Record]
-  @type t :: term
 
   @spec get(t, Expm.Package.name, Expm.Package.version), do: 
         Expm.Package.spec | :not_found
