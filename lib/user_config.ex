@@ -3,7 +3,7 @@ defmodule Expm.UserConfig do
     def read do
       if File.exists?(filename) do
         {:ok, b} = File.read(filename)
-        {v, _} = Code.eval(b)
+        {v, _} = Code.eval(b, [], file: filename, line: 1)
         v
       else 
         []
