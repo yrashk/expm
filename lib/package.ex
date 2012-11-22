@@ -97,7 +97,7 @@ defrecord Expm.Package,
                   end
                 end
     pkgs = lc {_, pkg} inlist pkgs, do: pkg
-    pkgs = List.sort pkgs, fn(pkg1, pkg2) -> pkg1.name <= pkg2.name end
+    List.sort pkgs, fn(pkg1, pkg2) -> pkg1.name <= pkg2.name end
   end
 
   def all(repo) do
