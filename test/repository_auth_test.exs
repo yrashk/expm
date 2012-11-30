@@ -26,7 +26,7 @@ defmodule Expm.Test.Repository.Auth do
   test "uploading a package with another version" do
     package = Expm.Package.new(name: "test", version: "0.1")
     auth = Expm.Repository.Auth.new(repository: repo, username: "user", auth_token: "password")
-    package = Expm.Package.publish auth, package
+    Expm.Package.publish auth, package
     package = Expm.Package.new(name: "test", version: "0.2")    
     package = Expm.Package.publish auth, package
     package = Expm.Package.publish auth, package
@@ -53,7 +53,7 @@ defmodule Expm.Test.Repository.Auth do
   test "uploading a package with another version with an incorrect username" do
     package = Expm.Package.new(name: "test", version: "0.1")
     auth = Expm.Repository.Auth.new(repository: repo, username: "user", auth_token: "password")
-    package = Expm.Package.publish auth, package
+    Expm.Package.publish auth, package
     auth = Expm.Repository.Auth.new(repository: repo, username: "user1", auth_token: "password")    
     package = Expm.Package.new(name: "test", version: "0.2")    
     assert {:error, :access_denied} = Expm.Package.publish auth, package
@@ -62,7 +62,7 @@ defmodule Expm.Test.Repository.Auth do
   test "uploading a package with another version with an incorrect password" do
     package = Expm.Package.new(name: "test", version: "0.1")
     auth = Expm.Repository.Auth.new(repository: repo, username: "user", auth_token: "password")
-    package = Expm.Package.publish auth, package
+    Expm.Package.publish auth, package
     auth = Expm.Repository.Auth.new(repository: repo, username: "user", auth_token: "password1")    
     package = Expm.Package.new(name: "test", version: "0.2")    
     assert {:error, :access_denied} = Expm.Package.publish auth, package
@@ -79,7 +79,7 @@ defmodule Expm.Test.Repository.Auth do
   test "deleting all versions of a package" do
     package = Expm.Package.new(name: "test", version: "0.1")
     auth = Expm.Repository.Auth.new(repository: repo, username: "user", auth_token: "password")
-    package = Expm.Package.publish auth, package
+    Expm.Package.publish auth, package
     package = Expm.Package.new(name: "test", version: "0.2")    
     package = Expm.Package.publish auth, package    
     assert :ok = Expm.Package.delete auth, package.name
@@ -106,7 +106,7 @@ defmodule Expm.Test.Repository.Auth do
   test "deleting a all versions of a package with an incorrect username" do
     package = Expm.Package.new(name: "test", version: "0.1")
     auth = Expm.Repository.Auth.new(repository: repo, username: "user", auth_token: "password")
-    package = Expm.Package.publish auth, package
+    Expm.Package.publish auth, package
     package = Expm.Package.new(name: "test", version: "0.2")    
     package = Expm.Package.publish auth, package    
     auth = Expm.Repository.Auth.new(repository: repo, username: "user1", auth_token: "password")    
@@ -116,7 +116,7 @@ defmodule Expm.Test.Repository.Auth do
   test "deleting a all versions of a package with an incorrect password" do
     package = Expm.Package.new(name: "test", version: "0.1")
     auth = Expm.Repository.Auth.new(repository: repo, username: "user", auth_token: "password")
-    package = Expm.Package.publish auth, package
+    Expm.Package.publish auth, package
     package = Expm.Package.new(name: "test", version: "0.2")    
     package = Expm.Package.publish auth, package        
     auth = Expm.Repository.Auth.new(repository: repo, username: "user", auth_token: "password1")    
