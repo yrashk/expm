@@ -78,7 +78,7 @@ defrecord Expm.Package,
   end
 
   def versions(repo, package) do
-    List.sort(Expm.Repository.versions repo, package)
+    Enum.sort Expm.Repository.versions repo, package
   end
 
   def filter(repo, package) do
@@ -97,7 +97,7 @@ defrecord Expm.Package,
                   end
                 end
     pkgs = lc {_, pkg} inlist pkgs, do: pkg
-    List.sort pkgs, fn(pkg1, pkg2) -> pkg1.name <= pkg2.name end
+    Enum.sort pkgs, fn(pkg1, pkg2) -> pkg1.name <= pkg2.name end
   end
 
   def all(repo) do
