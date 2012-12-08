@@ -11,5 +11,5 @@
   "mimetypes": {:git,"https://github.com/spawngrid/mimetypes.git","e9dfab5aec98963589ecf13bdfcf0490667a730d",[]},
   "proper": {:git,"https://github.com/manopapad/proper.git","8f09ee5252f595f32f9a8fd45b8e530b1a3fdfeb",[]},
   "ranch": {:git,"https://github.com/extend/ranch.git","cd099983b1b807b87fa050d1e4ff0a13aba25b49",[]},
-  "relex": {:git,"https://github.com/yrashk/relex.git","a1b36d67eb163e30194dcaee2604684fd729563d",[]},
+  "relex": {:git,"https://github.com/yrashk/relex.git","9fc231270ddbb72fcf0feff95bc46d404fe46932",[]},
   "validatex": {:git,"https://github.com/yrashk/validatex.git","f6e1d934647388f297132edcf80bcf7036b5eb09",[]} ]
