@@ -27,8 +27,12 @@ defmodule Expm do
 
   use Application.Behaviour
   def start(start_type, start_args) do
-    {:ok, m} = :application.get_env(:expm, :app_module)
-    m.start(start_type, start_args)
+    case :application.get_env(:expm, :app_module) do
+      {:ok, m} ->
+        m.start(start_type, start_args)
+      _ -> 
+        {:ok, self}
+    end
   end
 
   def start, do: Application.start(:expm)
