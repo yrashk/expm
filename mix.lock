@@ -4,7 +4,7 @@
   "erlpass": {:git,"https://github.com/ferd/erlpass.git","9df3643db39b5acad44643ddbcabb090437c8519",[]},
   "exconfig": {:git,"https://github.com/yrashk/exconfig.git","c6401a041bac19f53d0afd1f839e19347eded209",[]},
   "exreloader": {:git,"https://github.com/yrashk/exreloader.git","82e1bd157b75ed4a362f128d9d24646f36a586ba",[]},
-  "genx": {:git,"https://github.com/yrashk/genx.git","da972d408887c137a538430f0f5b65c1ff2bbf69",[]},
+  "genx": {:git,"https://github.com/yrashk/genx.git","d041f140962c19678bfc672a528144409785810e",[]},
   "hackney": {:git,"https://github.com/benoitc/hackney.git","896fc24e8efb4a5a6966cae13e749ab7cf1f73e2",[]},
   "lager": {:git,"https://github.com/basho/lager","9981ca0b4d7a57a421f7a6bba71e2087c0d614ed",[]},
   "lagerex": {:git,"https://github.com/yrashk/lagerex.git","4152858bfb058b9e2fc91cd7df9270ecb621a019",[]},
