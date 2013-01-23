@@ -7,7 +7,7 @@ defmodule Expm.Server do
    Application.start(:bcrypt) # because we don't want to start it in the CLI
    env = Application.environment(:expm)
    repo = env[:repository] || quote do: Expm.Repository.DETS.new(filename: "expm.dat")
-   static_dir = File.join [File.dirname(:code.which(__MODULE__)), "..", "priv", "static"]
+   static_dir = Path.join [Path.dirname(:code.which(__MODULE__)), "..", "priv", "static"]
    {repository, _} = Code.eval_quoted repo, [env: env]
    dispatch = [
       {:_, [{[], Expm.Server.Http.List, [repository: repository]},     
@@ -78,7 +78,7 @@ defmodule Expm.Server.Http do
     {host, req} = Req.host(req)
     {port, req} = Req.port(req)
     {path, _req} = Req.path(req)
-    motd_file = File.join [File.dirname(__FILE__), "..", "priv", "motd"]
+    motd_file = Path.join [Path.dirname(__FILE__), "..", "priv", "motd"]
     if File.exists?(motd_file) and path == "/" do
       {:ok, motd} = File.read(motd_file)
     else

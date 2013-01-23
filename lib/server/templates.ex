@@ -125,18 +125,18 @@ end
 defmodule Expm.Server.Templates do
   require EEx
 
-  templates_dir = File.join([File.dirname(__FILE__),"templates"])
+  templates_dir = Path.join([Path.dirname(__FILE__),"templates"])
 
   EEx.function_from_file :def, :list,
-                         File.join(templates_dir,"list.html.eex"),
+                         Path.join(templates_dir,"list.html.eex"),
                          [:pkgs, :title]
 
   EEx.function_from_file :def, :package,
-                         File.join(templates_dir,"package.html.eex"),
+                         Path.join(templates_dir,"package.html.eex"),
                          [:package, :repo]
 
   EEx.function_from_file :def, :page, 
-                         File.join(templates_dir,"page.html.eex"),
+                         Path.join(templates_dir,"page.html.eex"),
                          [:content, :assigns]
   
 end

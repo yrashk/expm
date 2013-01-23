@@ -23,9 +23,9 @@ defmodule Expm.Config do
        [handlers: [
          {:lager_console_backend, :info},
          {:lager_file_backend, [
-            {to_char_list(File.join(config.log_dir, "debug.log")), :debug, 10485760, '$D0', 5},
-            {to_char_list(File.join(config.log_dir, "error.log")), :error, 10485760, '$D0', 5},
-            {to_char_list(File.join(config.log_dir, "console.log")), :info, 10485760, '$D0', 5},
+            {to_char_list(Path.join(config.log_dir, "debug.log")), :debug, 10485760, '$D0', 5},
+            {to_char_list(Path.join(config.log_dir, "error.log")), :error, 10485760, '$D0', 5},
+            {to_char_list(Path.join(config.log_dir, "console.log")), :info, 10485760, '$D0', 5},
           ]
          }
         ],

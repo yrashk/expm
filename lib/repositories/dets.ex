@@ -3,12 +3,12 @@ defrecord Expm.Repository.DETS, table: nil,
                                 options: [auto_save: 1000] do
   defoverridable [new: 1]
   def new(opts) do
-    super(opts) /> init
+    super(opts) |> init
   end
 
   defp init(repo) do
     ref = make_ref
-    :dets.open_file(ref, repo.options /> Keyword.put(:file, binary_to_list(repo.filename)))
+    :dets.open_file(ref, repo.options |> Keyword.put(:file, binary_to_list(repo.filename)))
     repo.table(ref)
   end
 end

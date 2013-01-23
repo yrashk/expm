@@ -24,6 +24,6 @@ defmodule Expm.UserConfig do
     end
 
     def filename do
-      File.join(System.get_env("HOME"), ".expm.config")
+      Path.join(System.get_env("HOME"), ".expm.config")
     end
 end
