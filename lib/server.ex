@@ -45,14 +45,14 @@ defmodule Expm.Server.Http do
 
       def rest_init(req, opts) do
         repository = Expm.Repository.Auth.new repository: opts[:repository]  
-        {:ok, req, State.new(opts: opts, endpoint: opts[:endpoint], repository: repository)}
+        {:ok, req, __MODULE__.State.new(opts: opts, endpoint: opts[:endpoint], repository: repository)}
       end
 
       def allowed_methods(req, state) do
         {["GET", "PUT", "POST", "DELETE"], req, state}
       end
 
-      def content_types_provided(req, State[] = state) do
+      def content_types_provided(req, __MODULE__.State[] = state) do
         {[
            {{<<"text">>, <<"html">>, []}, :to_html},      
            {{<<"application">>, <<"elixir">>, []}, :to_elixir},

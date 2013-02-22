@@ -4,7 +4,7 @@ defimpl Expm.Repository, for: Expm.Repository.TermFile do
   alias Expm.Repository.TermFile, as: T
 
   defmacrop read(filename, [do: block]) do
-    quote hygiene: false do
+    quote hygiene: [vars: false] do
       if File.exists?(unquote(filename)) do
         c = File.read!(unquote(filename))
         packages = Expm.Package.decode(c)      
@@ -16,7 +16,7 @@ defimpl Expm.Repository, for: Expm.Repository.TermFile do
   end
 
   defmacrop write(filename, [do: block]) do
-    quote hygiene: false do
+    quote hygiene: [vars: false] do
       if File.exists?(unquote(filename)) do
         c = File.read!(unquote(filename))
         packages = Expm.Package.decode(c)      
