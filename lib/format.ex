@@ -14,19 +14,29 @@ defmodule Expm.Package.Format.Mix do
   #
   #  { :erlpass, [ github: "ferd/erlpass", compile: "rebar compile deps_dir=.." ] }
   #
+  def to_binary(spec = {name, req, options})
+  when is_atom(name) and is_list(options) and (is_binary(req) or is_regex(req) or req == nil) do
+    conv_kw_list([name, req], options) || inspect(spec)
+  end
+
   def to_binary(spec = {name, options})
   when is_atom(name) and is_list(options) do
+    conv_kw_list([name], options) || inspect(spec)
+  end
+
+  def to_binary(x), do: inspect(x)
+
+  def conv_kw_list(leaders, options) do
     if Enum.all?(options, is_tuple(&1)) do
       "{ " <>
-      [ inspect(name), kw_list_contents(options) ] 
-        |> List.flatten
-        |> Enum.join(", ")
+      [ Enum.map(leaders, inspect(&1)), kw_list_contents(options) ] 
+          |> List.flatten
+          |> Enum.join(", ")
       <> " }"
     else
-      inspect(spec)
+      nil
     end
   end
-  def to_binary(x), do: inspect(x)
 
   defp kw_list_contents([]), do: []
   defp kw_list_contents([{k,v}|t]) do
