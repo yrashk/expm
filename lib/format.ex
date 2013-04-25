@@ -6,7 +6,33 @@ defmodule Expm.Package.Format.Mix do
     }
   end
 
+  # Remove the additional [] around the options, so
+  #
+  #  { :erlpass, github: "ferd/erlpass", compile: "rebar compile deps_dir=.." }
+  #
+  # is converted to something that looks identical, and not
+  #
+  #  { :erlpass, [ github: "ferd/erlpass", compile: "rebar compile deps_dir=.." ] }
+  #
+  def to_binary(spec = {name, options})
+  when is_atom(name) and is_list(options) do
+    if Enum.all?(options, is_tuple(&1)) do
+      "{ " <>
+      [ inspect(name), kw_list_contents(options) ] 
+        |> List.flatten
+        |> Enum.join(", ")
+      <> " }"
+    else
+      inspect(spec)
+    end
+  end
   def to_binary(x), do: inspect(x)
+
+  defp kw_list_contents([]), do: []
+  defp kw_list_contents([{k,v}|t]) do
+    [ "#{k}: #{inspect(v)}" | kw_list_contents(t) ]
+  end
+
 end
 
 defmodule Expm.Package.Format.Rebar do
