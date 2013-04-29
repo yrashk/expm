@@ -26,7 +26,7 @@ defmodule Expm.Mixfile do
         {:edown, github: "esl/edown"},
       {:genx, github: "yrashk/genx"},
       {:cowboy, github: "extend/cowboy"},
-        {:ranch, github: "extend/ranch"},
+        {:ranch, github: "extend/ranch", tag: "0.4.0"},
       {:mimetypes, github: "spawngrid/mimetypes"},
       {:lagerex, github: "yrashk/lagerex"},
       {:exreloader, github: "yrashk/exreloader"},
