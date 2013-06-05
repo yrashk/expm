@@ -165,7 +165,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
     lc {dep, version} inlist Expm.Package.deps(repo, pkg) do
      IO.puts "#{dep} #{version}"
     end
-    rescue Expm.Package.VersionNotFound[]=e ->
+    rescue e in [Expm.Package.VersionNotFound] ->
       IO.puts e.message
   end
   def run(["deps", package, version], rec) do
@@ -174,7 +174,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
     lc {dep, version} inlist Expm.Package.deps(repo, pkg) do
      IO.puts "#{dep} #{version}"
     end
-    rescue Expm.Package.VersionNotFound[]=e ->
+    rescue e in [Expm.Package.VersionNotFound] ->
       IO.puts e.message    
   end
 
