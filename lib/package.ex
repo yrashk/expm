@@ -133,7 +133,7 @@ defrecord Expm.Package,
 
   def read(file // "package.exs") do
     {:ok, bin} = File.read(file)
-    {pkg, _} = Code.eval bin
+    {pkg, _} = Code.eval_string bin
     pkg
   end
 

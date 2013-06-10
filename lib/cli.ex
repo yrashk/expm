@@ -371,7 +371,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
                     ]
   defp do_format(pkg, rec) do
     format = format(rec)
-    {format_opts, _} = Code.eval format_opts(rec)
+    {format_opts, _} = Code.eval_quoted format_opts(rec)
     formatter = :proplists.get_value(String.downcase(format), formats, Expm.Package.Format.Asis)
     apply(formatter, :to_binary, [apply(formatter,:format, [pkg, format_opts])])
   end
