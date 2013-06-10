@@ -27,7 +27,7 @@ defmodule Expm.Mixfile do
       {:genx, github: "yrashk/genx"},
       {:cowboy, github: "extend/cowboy"},
         {:ranch, github: "extend/ranch", tag: "0.4.0"},
-      {:mimetypes, github: "spawngrid/mimetypes"},
+      {:mimetypes, github: "spawngrid/mimetypes", compile: "rebar compile deps_dir=.."},
       {:lagerex, github: "yrashk/lagerex"},
       {:exreloader, github: "yrashk/exreloader"},
       {:erlpass, github: "ferd/erlpass", compile: "rebar compile deps_dir=.."},
