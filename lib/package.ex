@@ -143,15 +143,19 @@ defrecord Expm.Package,
       github_repo = Enum.find(repositories(package), fn(r) -> 
                                 Regex.match?(%r(.*github.com/.+), r[:git])
                               end)
-      path = Regex.replace(%r{.*github.com/(.+)$},github_repo[:r],"\\1")
-      path = Regex.replace(%r{(.+)(\.git)$}, path, "\\1")
-      github_repo = Keyword.put github_repo, :github, path
+      unless nil?(github_repo) do
+        path = Regex.replace(%r{.*github.com/(.+)$},github_repo[:r],"\\1")
+        path = Regex.replace(%r{(.+)(\.git)$}, path, "\\1")
+        github_repo = Keyword.put github_repo, :github, path
+      end
     end
     cond do
      not nil?(homepage(package)) ->
        homepage(package)
      not nil?(github_repo) ->
        "https://github.com/#{github_repo[:github]}"
+     true ->
+       ""
     end
   end
 
