@@ -8,6 +8,7 @@ defmodule Expm.Mixfile do
       version: String.strip(System.cmd("git describe --always --tags"),?\n),
       deps: deps,
       escript_embed_elixir: true,
+      escript_app: nil, # don't start expm app
       release_options: [path: "rel"]
     ]
   end
@@ -27,10 +28,10 @@ defmodule Expm.Mixfile do
       {:genx, github: "yrashk/genx"},
       {:cowboy, github: "extend/cowboy"},
         {:ranch, github: "extend/ranch", tag: "0.4.0"},
-      {:mimetypes, github: "spawngrid/mimetypes", compile: "rebar compile deps_dir=.."},
+      {:mimetypes, github: "spawngrid/mimetypes"},
       {:lagerex, github: "yrashk/lagerex"},
       {:exreloader, github: "yrashk/exreloader"},
-      {:erlpass, github: "ferd/erlpass", compile: "rebar compile deps_dir=.."},
+      {:erlpass, github: "ferd/erlpass"},
         {:proper, github: "manopapad/proper"},
         {:bcrypt, github: "spawngrid/erlang-bcrypt"},
       {:relex, github: "yrashk/relex"},
