@@ -52,7 +52,7 @@ defrecord Expm.Package,
   end
 
   def decode(text) do
-    ast = Code.string_to_ast! text
+    ast = Code.string_to_quoted! text
     {v, _} = Code.eval_quoted Expm.Package.Decoder.decode(ast)
     v
   end

@@ -82,7 +82,7 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
     H.close(client)
     case code do
       200 ->
-        Expm.Repository.HTTP.Decoder.decode Code.string_to_ast!(body)
+        Expm.Repository.HTTP.Decoder.decode Code.string_to_quoted!(body)
       _ -> []
     end
   end
