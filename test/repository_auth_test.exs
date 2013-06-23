@@ -16,6 +16,12 @@ defmodule Expm.Test.Repository.Auth do
     assert package.metadata[:published_by] == "user"
   end
 
+  test "uploading a new package with mix", data do
+    auth = Expm.Repository.Auth.new(repository: data[:repo], username: "user", auth_token: "password")
+    package = Mix.Tasks.Publish.publish(auth)
+    assert package.metadata[:published_by] == "user"
+  end
+
   test "uploading a package with the same version", data do
     package = Expm.Package.new(name: "test", version: "0.1")
     auth = Expm.Repository.Auth.new(repository: data[:repo], username: "user", auth_token: "password")
