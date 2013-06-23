@@ -2,7 +2,7 @@
   "cowboy": {:git,"git://github.com/extend/cowboy.git","0b82eebed654bd894802acb52697a4d4187cb228",[]},
   "edown": {:git,"git://github.com/esl/edown.git","35f8296a25d14c5c1e3209399a2c1856700d9d5b",[]},
   "erlpass": {:git,"git://github.com/ferd/erlpass.git","9df3643db39b5acad44643ddbcabb090437c8519",[]},
-  "exconfig": {:git,"git://github.com/yrashk/exconfig.git","9675515b0b18591c816e341a4cb401ec81488339",[]},
+  "exconfig": {:git,"git://github.com/yrashk/exconfig.git","9bd6ee868a091cba8914e4eaf2d5c22179a6dfa6",[]},
   "exreloader": {:git,"git://github.com/yrashk/exreloader.git","82e1bd157b75ed4a362f128d9d24646f36a586ba",[]},
   "genx": {:git,"git://github.com/yrashk/genx.git","c0aec75a29edb8cb9bfc9af37b2f6d3c4b405f39",[]},
   "hackney": {:git,"git://github.com/benoitc/hackney.git","896fc24e8efb4a5a6966cae13e749ab7cf1f73e2",[]},
