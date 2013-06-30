@@ -2,6 +2,14 @@ all: expm
 
 .PHONY: ebin rel
 
+PREFIX ?= /usr/local
+
+install:
+	@cp -p ./expm $(PREFIX)/bin/expm
+
+uninstall:
+	rm -f $(PREFIX)/bin/expm
+
 ebin:
 	@mix do deps.get, compile
 
