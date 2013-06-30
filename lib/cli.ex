@@ -7,7 +7,10 @@ defmodule Expm.CLI.Command do
   end
   defmacro command(pattern, arg, body) do
     command = if pattern == [], do: "<no command>", else: hd(pattern)
-    match?({:"<<>>", _, [command|_]},command)
+    case command do
+      {:"<<>>", _, [command|_]} -> :ok
+      _ -> :ok
+    end
     quote do
       @command {unquote(command), @doc, @shortdoc}
       Module.delete_attribute __MODULE__, :doc

@@ -56,7 +56,8 @@ defmodule Expm.Package.Validator do
           V.Length.new(is: 2)
          ])
        ])}] ++
-       if match?({dep_name, dep_ver}, dependency) do
+       if match?({_, _}, dependency) do
+        {dep_name, dep_ver} = dependency
         [{{:dependency, dependency}, dep_name, name_format_validation},
          {{:dependency, dependency}, dep_ver, version_format_validation},
         ]
