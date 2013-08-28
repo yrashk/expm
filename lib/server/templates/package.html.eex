@@ -1,11 +1,11 @@
 <ul class="breadcrumb">
- <li><a href="/<%= package.name %>"><%= package.name %></a> <span class="divider"> :: </span></li>       
+ <li><a href="/<%= package.name %>"><%= package.name %></a> <span class="divider"> :: </span></li>
  <%= lc version inlist Expm.Package.versions(repo, package.name) do %>
   <%= if version == package.version do %>
-    <li class="active"><%= package.version %><span class="divider">|</span></li>       
+    <li class="active"><%= package.version %><span class="divider">|</span></li>
   <% else %>
-    <li><a href="/<%= package.name %>/<%= version %>"><%= version %></a> <span class="divider">|</span></li>       
-  <% end %>          
+    <li><a href="/<%= package.name %>/<%= version %>"><%= version %></a> <span class="divider">|</span></li>
+  <% end %>
  <% end %>
 </ul>
 <table class="table table-bordered table-striped">
@@ -18,7 +18,7 @@
 <tbody>
 <%= lc {field, value} inlist package.to_keywords do %>
    <tr>
-     <td><b><%= to_binary field %></b></td>
+     <td><b><%= to_string field %></b></td>
      <td><%= Expm.Server.Templates.Package.render(repo, field,value) %></td>
    </tr>
 <% end %>

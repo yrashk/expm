@@ -8,7 +8,7 @@ defrecord Expm.Repository.DETS, table: nil,
 
   defp init(repo) do
     ref = make_ref
-    :dets.open_file(ref, repo.options |> Keyword.put(:file, binary_to_list(repo.filename)))
+    :dets.open_file(ref, repo.options |> Keyword.put(:file, String.to_char_list!(repo.filename)))
     repo.table(ref)
   end
 end

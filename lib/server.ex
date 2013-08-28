@@ -10,17 +10,17 @@ defmodule Expm.Server do
    static_dir = Path.join [Path.dirname(:code.which(__MODULE__)), "..", "priv", "static"]
    {repository, _} = Code.eval_quoted repo, [env: env]
    dispatch = [
-      {:_, [{[], Expm.Server.Http.List, [repository: repository]},     
-            {["favicon.ico"], :cowboy_static, [file: "favicon.ico", directory: static_dir]},     
-            {["__download__","expm"], :cowboy_static, [file: "expm", directory: static_dir]},                 
-            {["s",:'...'], :cowboy_static, [directory: static_dir, mimetypes: {function(:mimetypes,:path_to_mimes,2), :default}]},     
-            {["__version__"], Expm.Server.Http.Version, []},      
-            {[:package], Expm.Server.Http.Package, [repository: repository]},      
-            {[:package, :version], Expm.Server.Http.PackageVersion, [repository: repository]},
+      {:_, [{"/", Expm.Server.Http.List, [repository: repository]},
+            {"/favicon.ico", :cowboy_static, [file: "favicon.ico", directory: static_dir]},
+            {"/__download__/expm", :cowboy_static, [file: "expm", directory: static_dir]},
+            {"/s/[:...]", :cowboy_static, [directory: static_dir, mimetypes: {&:mimetypes.path_to_mimes/2, :default}]},
+            {"/__version__", Expm.Server.Http.Version, []},
+            {"/:package", Expm.Server.Http.Package, [repository: repository]},
+            {"/:package/:version", Expm.Server.Http.PackageVersion, [repository: repository]},
             ]},
-   ]
+   ] |> :cowboy_router.compile
    http_port = env[:http_port]
-   Cowboy.start_http Expm.Server.Http.Listener, 100, [port: http_port], [dispatch: dispatch]
+   {:ok, _} = Cowboy.start_http Expm.Server.Http.Listener, 100, [port: http_port], [env: [dispatch: dispatch]]
    Lager.info "Started expm server on port #{http_port}"
    Sup.start_link sup_tree
   end
@@ -44,7 +44,7 @@ defmodule Expm.Server.Http do
       end
 
       def rest_init(req, opts) do
-        repository = Expm.Repository.Auth.new repository: opts[:repository]  
+        repository = Expm.Repository.Auth.new repository: opts[:repository]
         {:ok, req, __MODULE__.State.new(opts: opts, endpoint: opts[:endpoint], repository: repository)}
       end
 
@@ -54,7 +54,7 @@ defmodule Expm.Server.Http do
 
       def content_types_provided(req, __MODULE__.State[] = state) do
         {[
-           {{<<"text">>, <<"html">>, []}, :to_html},      
+           {{<<"text">>, <<"html">>, []}, :to_html},
            {{<<"application">>, <<"elixir">>, []}, :to_elixir},
          ], req, state}
       end
@@ -83,12 +83,12 @@ defmodule Expm.Server.Http do
       {:ok, motd} = File.read(motd_file)
     else
       motd = ""
-    end    
+    end
     if port == 80 do
       port = ""
     else
       port = ":#{port}"
-    end  
+    end
     title = Application.environment(:expm)[:site_title]
     subtitle = Application.environment(:expm)[:site_subtitle]
     [host: host, port: port, motd: motd, title: title, subtitle: subtitle]

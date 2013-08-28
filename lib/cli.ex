@@ -2,7 +2,9 @@ defmodule Expm.CLI.Command do
   defmacro __using__(_) do
     quote do
       import Expm.CLI.Command
-      Module.register_attribute __MODULE__, :command
+      @doc nil
+      @shortdoc nil
+      Module.register_attribute __MODULE__, :command, accumulate: true, persist: true
     end
   end
   defmacro command(pattern, arg, body) do
@@ -34,7 +36,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
   auth_switch_doc = """
     --username USER and --password PASSWORD
 
-  Used when publishing a package to the repository    
+  Used when publishing a package to the repository
   """
 
   @shortdoc :skip
@@ -46,7 +48,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
   Currently supported options: --version
 
   Example:
-    expm --version  
+    expm --version
   """
   command([], rec) do
     cond do
@@ -56,7 +58,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
         run(["help"], rec)
     end
   end
- 
+
   @shortdoc "Server information"
   @doc """
   $ expm server
@@ -67,7 +69,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
 
   Example:
     expm server --version
-  
+
   #{repository_switch_doc}
   """
   command(["server"], rec) do
@@ -126,7 +128,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
     case pkg do
       :not_found ->
         IO.puts "No such package"
-      _ -> 
+      _ ->
         IO.puts spec_field(pkg, field, rec)
     end
   end
@@ -137,7 +139,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
     case pkg do
       :not_found ->
         IO.puts "No such package"
-      _ -> 
+      _ ->
         IO.puts spec_field(pkg, field, rec)
     end
   end
@@ -178,15 +180,15 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
      IO.puts "#{dep} #{version}"
     end
     rescue e in [Expm.Package.VersionNotFound] ->
-      IO.puts e.message    
+      IO.puts e.message
   end
 
   @shortdoc "Publish a package"
   @doc """
   $ expm publish
- 
+
   Publishes package.exs to the repository
- 
+
   #{repository_switch_doc}
   #{auth_switch_doc}
   """
@@ -199,9 +201,9 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
   $ expm publish [filename.exs]
 
   Publishes filename.exs to the repository
- 
+
   #{repository_switch_doc}
-  #{auth_switch_doc}  
+  #{auth_switch_doc}
   """
   command(["publish", file], rec) do
     pkg = Expm.Package.read(file)
@@ -217,9 +219,9 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
   @shortdoc "Unpublish a package"
   @doc """
   $ expm unpublish [--all]
- 
+
   Unpublishes package.exs from the repository
- 
+
   If --all flag is supplied, then all versions will be unpublished.
 
   #{repository_switch_doc}
@@ -236,9 +238,9 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
   Unpublishes filename.exs from the repository
 
   If --all flag is supplied, then all versions will be unpublished.
- 
+
   #{repository_switch_doc}
-  #{auth_switch_doc}  
+  #{auth_switch_doc}
   """
   command(["unpublish", file], rec) do
     pkg = Expm.Package.read(file)
@@ -274,7 +276,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
     if (File.exists?(filename) and Regex.match?(%r/^(Y(es)?)?$/i, IO.gets("File #{filename} exists. Overwrite? [Yn] "))) or
        not File.exists?(filename) do
        File.write filename, Expm.Package.file_template([])
-    end    
+    end
   end
 
   @shortdoc "Display config"
@@ -318,7 +320,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
       IO.puts val
     end
   end
-  
+
   @shortdoc :skip
   @doc """
   $ expm help [command]
@@ -328,7 +330,7 @@ defrecord Expm.CLI, repository: Expm.Repository.HTTP.new.url, username: nil, pas
   command(["help", command], _rec) do
     lc {:command, [{cmd, doc, _}]} inlist __info__(:attributes), cmd == command do
       IO.puts doc || "No help available"
-    end    
+    end
   end
 
   @shortdoc "Help"

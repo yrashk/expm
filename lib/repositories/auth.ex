@@ -5,8 +5,8 @@ defrecord Expm.Repository.Auth, username: nil, auth_token: nil, repository: nil,
 
   def new(opts) do
     rec = super(opts)                                
-    rec = rec.cmp(function(__MODULE__, :bcrypt_cmp, 2))
-    rec.transform(function(__MODULE__, :bcrypt_transform, 1))
+    rec = rec.cmp(&__MODULE__.bcrypt_cmp/2)
+    rec.transform(&__MODULE__.bcrypt_transform/1)
   end
 
   def published_by(repo), do: {repo.username, repo.auth_token}

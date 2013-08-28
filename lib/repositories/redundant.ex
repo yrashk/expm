@@ -3,7 +3,7 @@ defimpl Expm.Repository, for: Expm.Repository.Redundant do
   
   def get(repo, package, version) do
     Enum.reduce(repo.repositories, :not_found,
-                function do
+                fn
                   repository, :not_found -> 
                     Expm.Repository.get repository, package, version
                   _repository, result -> result
@@ -12,7 +12,7 @@ defimpl Expm.Repository, for: Expm.Repository.Redundant do
 
   def versions(repo, package) do
     Enum.reduce(repo.repositories, [],
-                function do
+                fn
                   repository, [] -> 
                     Expm.Repository.versions repository, package
                   _repository, result -> result

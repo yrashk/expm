@@ -24,16 +24,12 @@ defmodule Expm.Mixfile do
     [
       {:validatex, github: "yrashk/validatex"},
       {:hackney, github: "benoitc/hackney"},
-        {:edown, github: "esl/edown"},
-      {:genx, github: "yrashk/genx"},
+      {:genx, github: "yrashk/genx", override: true},
       {:cowboy, github: "extend/cowboy"},
-        {:ranch, github: "extend/ranch", tag: "0.4.0"},
-      {:mimetypes, github: "spawngrid/mimetypes"},
       {:lagerex, github: "yrashk/lagerex"},
       {:exreloader, github: "yrashk/exreloader"},
       {:erlpass, github: "ferd/erlpass"},
-        {:proper, github: "manopapad/proper"},
-        {:bcrypt, github: "spawngrid/erlang-bcrypt"},
+        {:bcrypt, github: "spawngrid/erlang-bcrypt", override: true},
       {:relex, github: "yrashk/relex"},
       {:exconfig, github: "yrashk/exconfig"},
     ]

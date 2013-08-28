@@ -3,7 +3,7 @@ defexception Expm.Package.VersionNotFound, version: nil do
     "Version #{inspect e.version} not found"
   end
 end
-defrecord Expm.Package, 
+defrecord Expm.Package,
   metadata: [],
   # required
   name: nil,
@@ -29,7 +29,7 @@ defrecord Expm.Package,
   import Expm.Utils
 
   deflist keywords, keyword
-  deflist maintainers, maintainer  
+  deflist maintainers, maintainer
   deflist contributors, contributor
   deflist bugs, bug
   deflist licenses, license
@@ -41,8 +41,8 @@ defrecord Expm.Package,
   require EEx
   EEx.function_from_string :def, :file_template,
     %b{Expm.Package.new(name: "<%= @name || "yourlib" %>", description: "<%= @description %>",
-                 version: "<%= @version || "0.0.1" %>", keywords: [], 
-                 maintainers: [[name: "<%= @author || "Your Name" %>", 
+                 version: "<%= @version || "0.0.1" %>", keywords: [],
+                 maintainers: [[name: "<%= @author || "Your Name" %>",
                                 email: "<%= @email || "your@email.com" %>"]],
                  repositories: [[github: "user/repo"]])
     }, [:assigns]
@@ -69,7 +69,7 @@ defrecord Expm.Package,
   end
 
   def fetch(repo, package, version) do
-    if is_binary(version) and 
+    if is_binary(version) and
        Regex.match?(%r/^[a-z]+.*/i,version) do # symbolic name
       version = binary_to_atom(version) ## FIXME?
     end
@@ -82,7 +82,7 @@ defrecord Expm.Package,
   end
 
   def filter(repo, package) do
-    pkgs = 
+    pkgs =
     Enum.reduce Expm.Repository.list(repo, package),
                 [],
                 fn(package, acc) ->
@@ -120,7 +120,7 @@ defrecord Expm.Package,
   end
 
   def delete(repo, package) when is_binary(package) do
-    results = 
+    results =
     lc version inlist versions(repo, package) do
       delete(repo, package, version)
     end
@@ -140,7 +140,7 @@ defrecord Expm.Package,
   def public_homepage(package) do
     github_repo = Enum.find(repositories(package), fn(r) -> not nil?(r[:github]) end)
     if nil?(github_repo) do
-      github_repo = Enum.find(repositories(package), fn(r) -> 
+      github_repo = Enum.find(repositories(package), fn(r) ->
                                 Regex.match?(%r(.*github.com/.+), r[:git])
                               end)
       unless nil?(github_repo) do
@@ -170,27 +170,27 @@ defrecord Expm.Package,
     {name, version}
   end
 
-  defp resolve_dep(_repo, {name, version}) when is_binary(name) and 
+  defp resolve_dep(_repo, {name, version}) when is_binary(name) and
                                                 (is_binary(version) or is_atom(version)) do
     {name, version}
   end
 
-  defp resolve_dep(repo, {name, [>: version] = v}) when is_binary(name) and 
+  defp resolve_dep(repo, {name, [>: version] = v}) when is_binary(name) and
                                                    (is_binary(version) or is_atom(version)) do
     resolve_dep_impl(repo, name, v, fn(v) -> v > version end)
   end
 
-  defp resolve_dep(repo, {name, [>=: version] = v}) when is_binary(name) and 
+  defp resolve_dep(repo, {name, [>=: version] = v}) when is_binary(name) and
                                                     (is_binary(version) or is_atom(version)) do
     resolve_dep_impl(repo, name, v, fn(v) -> v >= version end)
   end
 
-  defp resolve_dep(repo, {name, [<: version] = v}) when is_binary(name) and 
+  defp resolve_dep(repo, {name, [<: version] = v}) when is_binary(name) and
                                                     (is_binary(version) or is_atom(version)) do
     resolve_dep_impl(repo, name, v, fn(v) -> v < version end)
   end
 
-  defp resolve_dep(repo, {name, [<=: version] = v}) when is_binary(name) and 
+  defp resolve_dep(repo, {name, [<=: version] = v}) when is_binary(name) and
                                                     (is_binary(version) or is_atom(version)) do
     resolve_dep_impl(repo, name, v, fn(v) -> v <= version end)
   end
@@ -202,11 +202,11 @@ defrecord Expm.Package,
       {name, found}
     else
       raise Expm.Package.VersionNotFound, version: version
-    end  
+    end
   end
 
   def inspect_version(version) when is_binary(version), do: version
-  def inspect_version(version) when is_atom(version), do: to_binary(version)
+  def inspect_version(version) when is_atom(version), do: to_string(version)
   def inspect_version([>: v]), do: "> #{inspect_version(v)}"
   def inspect_version([>=: v]), do: ">= #{inspect_version(v)}"
   def inspect_version([<: v]), do: "< #{inspect_version(v)}"

@@ -5,7 +5,7 @@ defmodule Expm.UserConfig do
         {:ok, b} = File.read(filename)
         {v, _} = Code.eval_string(b, [], file: filename, line: 1)
         v
-      else 
+      else
         []
       end
     end
@@ -15,7 +15,7 @@ defmodule Expm.UserConfig do
       opts = Keyword.put opts, option, value
       vals = List.flatten(lc {k,v} inlist opts, do: ["#{k}: #{inspect v}",","])
       vals = Enum.reverse(tl(Enum.reverse(vals)))
-      str = "[" <> list_to_binary(vals)  <> "]"
+      str = "[" <> to_string(vals)  <> "]"
       File.write(filename, str)
     end
 

@@ -2,12 +2,12 @@ defrecord Expm.Repository.HTTP, url: "https://expm.co", username: nil, password:
   alias :hackney, as: H
 
   def version(repo) do
-    {:ok, 200, _headers, client} = 
+    {:ok, 200, _headers, client} =
       H.request("GET", "#{repo.url}/__version__",
                 [
                  {"content-type","text/html"},
                  {"accept", "text/html"},
-                 {"user-agent", "expm/#{Expm.version}"},                 
+                 {"user-agent", "expm/#{Expm.version}"},
                 ],
                 "", [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
@@ -26,12 +26,12 @@ defmodule Expm.Repository.HTTP.Decoder do
   end
 
   def decode(v) do
-    raise SecurityException.new(message: "#{Macro.to_binary(v)} is not allowed")  
+    raise SecurityException.new(message: "#{Macro.to_string(v)} is not allowed")
   end
 
 
   def decode_1({ _a, _b, _c }=v) do
-    raise SecurityException.new(message: "#{Macro.to_binary(v)} is not allowed")
+    raise SecurityException.new(message: "#{Macro.to_string(v)} is not allowed")
   end
 
   def decode_1({ a, b }) do
@@ -48,12 +48,12 @@ defmodule Expm.Repository.HTTP.Decoder do
 end
 
 defimpl Expm.Repository, for: Expm.Repository.HTTP do
-  
+
   alias :hackney, as: H
 
   def get(repo, package, version) do
-    {:ok, code, _headers, client} = 
-      H.request("GET", "#{repo.url}/#{to_binary(package)}/#{to_binary(version)}",
+    {:ok, code, _headers, client} =
+      H.request("GET", "#{repo.url}/#{to_string(package)}/#{to_string(version)}",
                 [
                  {"content-type","application/elixir"},
                  {"accept", "application/elixir"},
@@ -64,13 +64,13 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
     H.close(client)
     case code do
       200 ->
-        Expm.Package.decode body  
+        Expm.Package.decode body
       _ -> :not_found
     end
   end
 
   def versions(repo, package) do
-    {:ok, code, _headers, client} = 
+    {:ok, code, _headers, client} =
       H.request("GET", "#{repo.url}/#{package}",
                 [
                  {"content-type","application/elixir"},
@@ -87,20 +87,20 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
     end
   end
 
-  def put(Expm.Repository.HTTP[username: username, 
+  def put(Expm.Repository.HTTP[username: username,
                                password: password], _spec)
                                  when nil?(username) or
                                       nil?(password) do
-      {:error, :authentication_required}                                                        
-  end      
+      {:error, :authentication_required}
+  end
 
   def put(repo, spec) do
-    {:ok, code, _headers, client} = 
+    {:ok, code, _headers, client} =
       H.request("PUT", "#{repo.url}/#{spec.name}",
                 [{"authorization",%b{Basic #{:base64.encode("#{repo.username}:#{repo.password}")}}},
                  {"content-type","application/elixir"},
                  {"accept", "application/elixir"},
-                 {"user-agent", "expm/#{Expm.version}"},              
+                 {"user-agent", "expm/#{Expm.version}"},
                  ],
                 spec.encode, [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
@@ -113,12 +113,12 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
   end
 
   def delete(repo, package, version) do
-    {:ok, code, _headers, client} = 
+    {:ok, code, _headers, client} =
       H.request("DELETE", "#{repo.url}/#{package}/#{version}",
                 [{"authorization",%b{Basic #{:base64.encode("#{repo.username}:#{repo.password}")}}},
                  {"content-type","application/elixir"},
                  {"accept", "application/elixir"},
-                 {"user-agent", "expm/#{Expm.version}"},          
+                 {"user-agent", "expm/#{Expm.version}"},
                  ],
                 "", [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
@@ -129,19 +129,19 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
       _ -> {:error, code, body}
     end
   end
-  
+
   def list(repo, filter) do
-    {:ok, code, _headers, client} = 
+    {:ok, code, _headers, client} =
       H.request("PUT", "#{repo.url}",
                 [
                  {"content-type","application/elixir"},
                  {"accept", "application/elixir"},
-                 {"user-agent", "expm/#{Expm.version}"},         
+                 {"user-agent", "expm/#{Expm.version}"},
                  ],
                 filter.encode, [follow_redirect: true, force_redirect: true])
     {:ok, body, client} = H.body(client)
     H.close(client)
-    case code do 
+    case code do
       200 ->
         Expm.Package.decode body
       _ ->

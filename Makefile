@@ -14,6 +14,7 @@ ebin:
 	@mix do deps.get, compile
 
 expm: ebin
+	@rm priv/static/expm
 	@mix escriptize
 	@cp ./expm priv/static
 

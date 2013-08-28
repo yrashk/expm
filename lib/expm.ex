@@ -9,14 +9,14 @@ defmodule Expm do
       def expm(package, options // []) do
         repo = options[:repository] || unquote(quoted_repo)
         format = options[:format] || unquote(format)
-        pkg = 
+        pkg =
         if options[:version] do
           Expm.Package.fetch repo, package, options[:version]
         else
           Expm.Package.fetch repo, package
         end
         format.format pkg, (options[format] || [])
-      end      
+      end
     end
   end
 
@@ -30,13 +30,13 @@ defmodule Expm do
     case :application.get_env(:expm, :app_module) do
       {:ok, m} ->
         m.start(start_type, start_args)
-      _ -> 
+      _ ->
         {:ok, self}
     end
   end
 
   def start, do: Application.start(:expm)
-  
+
   def start(app_module) do
     :ok = Application.load(:expm)
     :application.set_env(:expm, :app_module, app_module)
@@ -45,13 +45,13 @@ defmodule Expm do
 
   def main(argv) do
     :ok = Application.start :ssl
-    argv = lc arg inlist argv, do: to_binary(arg)
-    {opts, commands} = OptionParser.parse(argv, 
+    argv = lc arg inlist argv, do: to_string(arg)
+    {opts, commands, _} = OptionParser.parse(argv,
                        aliases: [
-                                 r: :repository, 
+                                 r: :repository,
                                 ],
                        flags: [:all])
-    opts = Keyword.merge Expm.UserConfig.read, opts        
+    opts = Keyword.merge Expm.UserConfig.read, opts
     Expm.CLI.new(opts).run(commands)
   end
 end
