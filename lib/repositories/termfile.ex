@@ -37,7 +37,7 @@ defimpl Expm.Repository, for: Expm.Repository.TermFile do
   def versions(T[filename: filename], package) do
     read(filename) do
       packages = Enum.filter(packages, fn(pkg) -> pkg.name == package end)
-      Enum.map(packages, Expm.Package.version(&1))
+      Enum.map(packages, Expm.Package.version(T))
     end
   end
 

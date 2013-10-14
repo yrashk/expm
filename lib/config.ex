@@ -3,7 +3,7 @@ defmodule Expm.Config do
 
   defproperty http_port, default: 8080
   defproperty site_title, default: "Elixir Packages"
-  defproperty site_subtitle, default: %b{<small>A repository for publishing <a href="http://elixir-lang.org">Elixir</a> & <a href="http://erlang.org">Erlang</a> packages</small>}
+  defproperty site_subtitle, default: %s{<small>A repository for publishing <a href="http://elixir-lang.org">Elixir</a> & <a href="http://erlang.org">Erlang</a> packages</small>}
   defproperty repository  
   defproperty package_footer
 

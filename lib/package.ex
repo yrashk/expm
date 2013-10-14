@@ -40,7 +40,7 @@ defrecord Expm.Package,
 
   require EEx
   EEx.function_from_string :def, :file_template,
-    %b{Expm.Package.new(name: "<%= @name || "yourlib" %>", description: "<%= @description %>",
+    %s{Expm.Package.new(name: "<%= @name || "yourlib" %>", description: "<%= @description %>",
                  version: "<%= @version || "0.0.1" %>", keywords: [],
                  maintainers: [[name: "<%= @author || "Your Name" %>",
                                 email: "<%= @email || "your@email.com" %>"]],
