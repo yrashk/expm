@@ -26,7 +26,7 @@ defmodule Expm.Mixfile do
       {:hackney, github: "benoitc/hackney"},
       {:genx, github: "yrashk/genx", override: true},
       {:cowboy, github: "extend/cowboy"},
-      {:lagerex, github: "yrashk/lagerex"},
+      {:lagerex, github: "cthulhuology/lagerex"},
       {:exreloader, github: "yrashk/exreloader"},
       {:erlpass, github: "ferd/erlpass"},
         {:bcrypt, github: "spawngrid/erlang-bcrypt", override: true},
