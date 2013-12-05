@@ -97,7 +97,7 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
   def put(repo, spec) do
     {:ok, code, _headers, client} =
       H.request("PUT", "#{repo.url}/#{spec.name}",
-                [{"authorization",%b{Basic #{:base64.encode("#{repo.username}:#{repo.password}")}}},
+                [{"authorization",%s{Basic #{:base64.encode("#{repo.username}:#{repo.password}")}}},
                  {"content-type","application/elixir"},
                  {"accept", "application/elixir"},
                  {"user-agent", "expm/#{Expm.version}"},
@@ -115,7 +115,7 @@ defimpl Expm.Repository, for: Expm.Repository.HTTP do
   def delete(repo, package, version) do
     {:ok, code, _headers, client} =
       H.request("DELETE", "#{repo.url}/#{package}/#{version}",
-                [{"authorization",%b{Basic #{:base64.encode("#{repo.username}:#{repo.password}")}}},
+                [{"authorization",%s{Basic #{:base64.encode("#{repo.username}:#{repo.password}")}}},
                  {"content-type","application/elixir"},
                  {"accept", "application/elixir"},
                  {"user-agent", "expm/#{Expm.version}"},

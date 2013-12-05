@@ -7,7 +7,7 @@ defmodule Expm.Server.Http.Package do
       {_, req} ->
         {auth, req} = Req.header("authorization", req)
         case auth do 
-          :undefined -> {{false, %b{Basic realm="expm"}}, req, state}
+          :undefined -> {{false, %s{Basic realm="expm"}}, req, state}
           _ ->
               ["Basic", auth] = String.split(auth, " ")
               [username, auth] = String.split(:base64.decode(auth), ":")

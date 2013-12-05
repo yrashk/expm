@@ -14,12 +14,12 @@ ebin:
 	@mix do deps.get, compile
 
 expm: ebin
-	@rm priv/static/expm
+	@rm -f priv/static/expm
 	@mix escriptize
 	@cp ./expm priv/static
 
 sys.config: config.exs
-	@ERL_LIBS=deps elixir -pa ebin -e "config = Expm.Config.file!(%b{config.exs}); config.sys_config!(%b{sys.config})"
+	@ERL_LIBS=deps elixir -pa ebin -e "config = Expm.Config.file!(%s{config.exs}); config.sys_config!(%s{sys.config})"
 
 start: expm sys.config
 	@ERL_LIBS=deps elixir --sname expm --erl "-pa ebin -config sys -s Elixir.Expm" --no-halt

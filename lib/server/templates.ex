@@ -2,19 +2,19 @@ defmodule Expm.Server.Templates.Package do
   require EEx
 
   EEx.function_from_string :def, :description,
-    %b{
+    %s{
       <%= description %>
     }, [:description, :_assigns]
 
   EEx.function_from_string :def, :directories,
-    %b{
+    %s{
       <%= lc dir inlist directories do %>
         <span class="label"><%= dir %></span>
       <% end %>
     }, [:directories, :_assigns]
 
   EEx.function_from_string :def, :homepage,
-    %b{
+    %s{
       <%= if nil?(homepage) do %>
       <% else %>
         <a href="<%= homepage %>"><%= homepage %></a>
@@ -22,26 +22,26 @@ defmodule Expm.Server.Templates.Package do
     }, [:homepage, :_assigns]
 
   EEx.function_from_string :def, :keywords,
-    %b{
+    %s{
       <%= lc keyword inlist keywords do %>
         <span class="label label-info"><%= keyword %></span>
       <% end %>
     }, [:keywords, :_assigns]
 
   EEx.function_from_string :def, :metadata,
-    %b{
+    %s{
       <%= lc \{tag, value \} inlist metadata do %>
         <span class="label label-info"><%= tag %>:</span> <%= inspect value %>
       <% end %>
     }, [:metadata, :_assigns]
 
   EEx.function_from_string :def, :name,
-    %b{
+    %s{
       <strong><%= name %></strong>
     }, [:name, :_assigns]
 
   EEx.function_from_string :def, :repositories,
-    %b{
+    %s{
       <%= lc repository inlist repositories do %>
         <%= if repository[:github] do %>
           <span class="label label-important">GitHub</span>
@@ -64,12 +64,12 @@ defmodule Expm.Server.Templates.Package do
 
 
   EEx.function_from_string :def, :version,
-    %b{
+    %s{
       <%= version %>
     }, [:version, :_assigns]
 
   EEx.function_from_string :def, :dependencies,
-    %b|
+    %s|
       <%= lc dependency inlist dependencies do %>
         <% [{name, actual_version}] = Expm.Package.deps(@repo, Expm.Package.new(dependencies: [dependency])) %>
         <% if is_binary(dependency), do: version = "topmost", else: {_, version} = dependency %>
@@ -78,7 +78,7 @@ defmodule Expm.Server.Templates.Package do
     |, [:dependencies, :assigns]
 
   EEx.function_from_string :def, :licenses,
-    %b{
+    %s{
       <%= lc license inlist licenses do %>
         <span class="label label-success"><%= license[:name] %></span>
       <% end %>
@@ -88,14 +88,14 @@ defmodule Expm.Server.Templates.Package do
   def contributors(contributors, assigns), do: people_without_email(contributors, assigns)
 
   EEx.function_from_string :defp, :people,
-    %b{
+    %s{
       <%= lc person inlist people do %>
         <span class="label label-success"><%= person[:name] %> &lt;<span class="b64"><%= :base64.encode(person[:email]) %></span>&gt;</span>
       <% end %>
     }, [:people, :_assigns]
 
   EEx.function_from_string :defp, :people_without_email,
-    %b{
+    %s{
       <%= lc person inlist people do %>
         <span class="label label-success"><%= person[:name] %></span>
       <% end %>
