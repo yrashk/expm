@@ -44,7 +44,7 @@ defrecord Expm.Package,
                  version: "<%= @version || "0.0.1" %>", keywords: [],
                  maintainers: [[name: "<%= @author || "Your Name" %>",
                                 email: "<%= @email || "your@email.com" %>"]],
-                 repositories: [[github: "user/repo"]])
+                 repositories: [[github: "user/repo", tag: "v<%= @version || "0.0.1" %>"]])
     }, [:assigns]
 
   def encode(rec) do
